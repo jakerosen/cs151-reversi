@@ -1,0 +1,19 @@
+Two players (white and black)
+8x8 board (64 spaces total)
+Each space can be white, black or empty.
+
+Take turns (black goes first):
+  Place one piece in a legal location.
+    Legal locations are any space where there is a direct straight of connected
+    pieces to another piece of that player's color.
+    Straight is defined as horizontal, vertical, or diagonal.
+
+  When a piece is placed, flip all pieces in between the placed piece and the
+  piece that had a connected straight to that player's color.
+
+  If a player cannot make a legal move, they pass.  If both players cannot make
+  a legal move, the game ends.
+
+When the game ends, determine the winner:
+  Count the pieces of each player's color.  The player with the highest number
+  of pieces wins.  If there is a tie, then the game is tied.
