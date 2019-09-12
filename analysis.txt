@@ -48,7 +48,10 @@ Use Cases:
       2.3 If both players cannot make a legal move, the game ends.
     3. The game ends.  Count the score of each player by counting the number of
     pieces of their color on the board.  The higher score wins, or if it is
-    tied, the game is tied.
+    tied, the game is tied. If the game ends before all squares are filled, the
+    player with the higher score has the number of remaining empty squares
+    added to their score. In case of a tie, each player has half of the remaining
+    empty squares added to their scores.
 
   Start a new Game.
     1. Either player can choose to start a new game.  The current game will
