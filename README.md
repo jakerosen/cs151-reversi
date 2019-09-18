@@ -1,13 +1,13 @@
 # Reversi
 
-About Reversi (with Othello variant rules)
-Two players (white and black)
-8x8 checkered board (64 spaces total)
-Each space can be white, black, or empty.
+About Reversi (with Othello variant rules)\
+Two players (white and black)\
+8x8 checkered board (64 spaces total)\
+Each space can be white, black, or empty.\
 
-Initial starting position of pieces (in the middle of the board):
-  W B
-  B W
+Initial starting position of pieces (in the middle of the board):\
+  W B\
+  B W\
 
 Take turns (black goes first):
   Place one piece in a legal location.
