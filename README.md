@@ -1,4 +1,5 @@
 # Reversi
+Jake Rosen and Kevin Rotunni
 
 About Reversi (with Othello variant rules)\
 Two players (white and black)\
