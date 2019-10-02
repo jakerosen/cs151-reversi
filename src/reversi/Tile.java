@@ -6,12 +6,14 @@ package reversi;
  */
 public class Tile
 {
+	Color color;
+	
 	/**
 	 * Creates a new, empty Tile
 	 */
 	public Tile()
 	{
-		
+		color = Color.EMPTY;
 	}
 	
 	/**
@@ -20,7 +22,7 @@ public class Tile
 	 */
 	public void setState(Color color)
 	{
-		
+		this.color = color;
 	}
 	
 	/**
@@ -29,6 +31,27 @@ public class Tile
 	 */
 	public Color getState()
 	{
-		return null;
+		return color;
+	}
+	
+	@Override
+	public boolean equals(Object o)
+	{
+		if(o == this)
+			return true;
+		if(o == null || !(o instanceof Tile))
+			return false;
+		Tile t = (Tile) o;
+		return t.color == this.color;
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		if(this.color == Color.BLACK)
+			return 1;
+		if(this.color == Color.WHITE)
+			return 2;
+		return 0;
 	}
 }
