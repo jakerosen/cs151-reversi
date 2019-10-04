@@ -9,7 +9,7 @@ class TileTest {
 	@Test
 	@SuppressWarnings("unlikely-arg-type")
 	void tileTest() {
-		Tile tile1 = new Tile();
+		Tile tile1 = new Tile(null);
 		assertEquals(Color.EMPTY, tile1.getState());
 		assertEquals(0, tile1.hashCode());
 		
@@ -17,12 +17,12 @@ class TileTest {
 		assertEquals(Color.BLACK, tile1.getState());
 		assertEquals(1, tile1.hashCode());
 		
-		Tile tile2 = new Tile();
+		Tile tile2 = new Tile(null);
 		tile2.setState(Color.WHITE);
 		assertEquals(Color.WHITE, tile2.getState());
 		assertEquals(2, tile2.hashCode());
 		
-		Tile tile3 = new Tile();
+		Tile tile3 = new Tile(null);
 		assertTrue(tile3.equals(tile3));
 		assertFalse(tile1.equals(tile2));
 		assertFalse(tile1.equals(tile3));
