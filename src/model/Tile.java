@@ -6,35 +6,34 @@ package model;
  */
 public class Tile {
   Color color;
-  Location location;
+  int x;
+  int y;
 
   /**
    * Creates a new, empty Tile
    */
-  public Tile(Location location) {
-    color = Color.EMPTY;
-    this.location = location;
-  }
-  
-  /**
-   * Creates a new, empty Tile
-   */
   public Tile(int x, int y) {
-    this.location = new Location(x, y);
+    if (x < 0 || x > 7 || y < 0 || y > 7) {
+      throw new IllegalArgumentException("x and y must be between [0,7]");
+    }
+
+    color = Color.EMPTY;
+    this.x = x;
+    this.y = y;
   }
-  
+
   /**
    * @return x coord of this tile
    */
   public int getX() {
-    return location.getX();
+    return x;
   }
 
   /**
    * @return y coord of this tile
    */
   public int getY() {
-    return location.getY();
+    return x;
   }
 
   /**
