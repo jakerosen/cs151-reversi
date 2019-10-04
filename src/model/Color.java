@@ -1,4 +1,4 @@
-package reversi;
+package model;
 
 /**
  * Includes all possible states of a board tile in Reversi:

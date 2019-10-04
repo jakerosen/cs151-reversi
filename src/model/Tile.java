@@ -1,4 +1,4 @@
-package reversi;
+package model;
 
 /**
  * Models a Tile on a Reversi Board,

@@ -1,4 +1,4 @@
-package reversi;
+package model;
 
 import junit.framework.TestCase;
 

@@ -1,4 +1,4 @@
-package reversi;
+package model;
 
 /**
  * Holds Tiles, Sets Tile state during and after turns,

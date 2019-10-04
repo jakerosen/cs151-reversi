@@ -1,4 +1,4 @@
-package reversi;
+package model;
 
 /**
  * Runs the logic for Reversi,
