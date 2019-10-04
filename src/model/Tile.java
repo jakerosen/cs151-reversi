@@ -24,22 +24,6 @@ public class Tile {
   }
   
   /**
-   * Creates a colored Tile
-   */
-  public Tile(Location location, Color color) {
-    this.color = color;
-    this.location = location;
-  }
-
-  /**
-   * Creates a colored Tile
-   */
-  public Tile(int x, int y, Color color) {
-    this.color = color;
-    this.location = new Location(x, y);
-  }
-
-  /**
    * @return x coord of this tile
    */
   public int getX() {
