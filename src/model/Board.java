@@ -8,33 +8,54 @@ import java.util.LinkedList;
  * Tallies score
  */
 public class Board {
-  Tile[][] board;
-  LinkedList<Tile> blacks;
-  LinkedList<Tile> whites;
+  private static Board board;
+  private Tile[][] tiles;
+  private LinkedList<Tile> blacks;
+  private LinkedList<Tile> whites;
 
-  /**
-   * Initializes a Board with 64 Tiles
-   */
-  public Board() {
+  private Board() {
     int n = 8; // 8 by 8 board, 64 tiles total.
-    board = new Tile[n][n];
-    blacks = new LinkedList<Tile>();
-    whites = new LinkedList<Tile>();
+    tiles = new Tile[n][n];
     for (int i = 0; i < n; i++) {
-      board[i] = new Tile[n];
-      for (int j = 0; i < n; i++) {
-        board[i][j] = new Tile(i, j);
+      tiles[i] = new Tile[n];
+      for (int j = 0; j < n; j++) {
+        tiles[i][j] = new Tile(i, j);
       }
     }
-    //Initial four pieces for Othello variant.
-    board[3][3].setState(Color.WHITE);
-    whites.add(board[3][3]);
-    board[4][3].setState(Color.BLACK);
-    blacks.add(board[4][3]);
-    board[3][4].setState(Color.BLACK);
-    blacks.add(board[3][4]);
-    board[4][4].setState(Color.WHITE);
-    whites.add(board[4][4]);
+    board.reset();
+  }
+
+  /**
+   * Returns a singleton Board with 64 Tiles
+   * @return the Board
+   */
+  public Board getBoard() {
+    if (board == null)
+      board = new Board();
+    return board;
+  }
+
+  /**
+   * Resets the Board, setting all Tiles except the middle four empty,
+   * setting the middle four Tiles as specified by Othello variant,
+   * and emptying the player lists except for the initial Tiles.
+   */
+  public void reset() {
+    whites = new LinkedList<Tile>();
+    blacks = new LinkedList<Tile>();
+    for (Tile[] column : tiles) {
+      for (Tile t : column) {
+        if ((t.getX() == 3 && t.getY() == 3) || (t.getX() == 4 && t.getY() == 4)) {
+          t.setState(Color.WHITE);
+          whites.add(t);
+        }
+        else if ((t.getX() == 3 && t.getY() == 4) || (t.getX() == 4 && t.getY() == 3)) {
+          t.setState(Color.BLACK);
+          blacks.add(t);
+        }
+        else t.setState(Color.EMPTY);
+      }
+    }
   }
 
   /**
@@ -58,12 +79,11 @@ public class Board {
             int x = t.getX() + i;
             int y = t.getY() + j;
             if(x >= 0 && x <= 7 && y >= 0 && y <= 7) {
-              Tile t1 = board[x][y];
-              if (t1.getState() != player && t1.getState() != Color.EMPTY) {
+              Tile t1 = tiles[x][y];
+              if (2*t1.getStateNumeric()%3 == t.getStateNumeric()) {
                 while (x > 0 && x < 7 && y > 0 && y < 7
-                        && t1.getState() != player
-                         && t1.getState() != Color.EMPTY) {
-                  t1 = board[x += i][y += j];
+                        && 2*t1.getStateNumeric()%3 == t.getStateNumeric()) {
+                  t1 = tiles[x += i][y += j];
                 }
                 if (t1.getState() == Color.EMPTY) {
                   int[] position = {x, y};
@@ -92,9 +112,15 @@ public class Board {
 
   /**
    * Tallies the score of the Board
-   * @return Array containing Black Tiles, White Tiles, empty Tiles respectively
+   * @return Array containing Empty Tiles, Black Tiles, White Tiles respectively
    */
   public int[] getScore() {
-    return null;
+    int[] scores = new int[3];
+    for (Tile[] column : tiles) {
+      for (Tile t : column) {
+        scores[t.getStateNumeric()]++;
+      }
+    }
+    return scores;
   }
 }

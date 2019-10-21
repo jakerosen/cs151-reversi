@@ -5,12 +5,14 @@ package model;
  * Keeps track of its own state
  */
 public class Tile {
-  Color color;
-  int x;
-  int y;
+  private Color color;
+  private int x;
+  private int y;
 
   /**
    * Creates a new, empty Tile
+   * @param x coord of this Tile
+   * @param y coord of this Tile
    */
   public Tile(int x, int y) {
     if (x < 0 || x > 7 || y < 0 || y > 7) {
@@ -23,14 +25,14 @@ public class Tile {
   }
 
   /**
-   * @return x coord of this tile
+   * @return x x coord of this Tile
    */
   public int getX() {
     return x;
   }
 
   /**
-   * @return y coord of this tile
+   * @return y y coord of this Tile
    */
   public int getY() {
     return y;
@@ -51,6 +53,16 @@ public class Tile {
   public Color getState() {
     return color;
   }
+  
+  /**
+   * Gets a numeric representation of the state of this Tile
+   * @return 0 for empty Tile, 1 for Black Tile, 2 for White Tile
+   */
+  public int getStateNumeric() {
+    if (color == Color.WHITE) return 2;
+    if (color == Color.BLACK) return 1;
+    return 0;
+  }
 
   @Override
   public boolean equals(Object o) {
@@ -59,15 +71,11 @@ public class Tile {
     if(o == null || !(o instanceof Tile))
       return false;
     Tile t = (Tile) o;
-    return t.color == this.color;
+    return t.color == this.color && t.x == this.x && t.y == this.y;
   }
 
   @Override
   public int hashCode() {
-    if(this.color == Color.BLACK)
-      return 1;
-    if(this.color == Color.WHITE)
-      return 2;
-    return 0;
+    return (getStateNumeric() * 64) + (x * 8) + y;
   }
 }
