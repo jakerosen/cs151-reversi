@@ -33,7 +33,7 @@ public class Tile {
    * @return y coord of this tile
    */
   public int getY() {
-    return x;
+    return y;
   }
 
   /**

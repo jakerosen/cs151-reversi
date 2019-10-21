@@ -26,15 +26,58 @@ public class Board {
         board[i][j] = new Tile(i, j);
       }
     }
+    //Initial four pieces for Othello variant.
+    board[3][3].setState(Color.WHITE);
+    whites.add(board[3][3]);
+    board[4][3].setState(Color.BLACK);
+    blacks.add(board[4][3]);
+    board[3][4].setState(Color.BLACK);
+    blacks.add(board[3][4]);
+    board[4][4].setState(Color.WHITE);
+    whites.add(board[4][4]);
   }
 
   /**
    * Gets legal moves for current player
    * @param player The player to get legal moves for
-   * @return Array with legal moves positions
+   * @return LinkedList with legal moves positions in format [x, y]
    */
-  public int[] getLegalMoves(Color player) {
-    return null;
+  public LinkedList<int[]> getLegalMoves(Color player) {
+    LinkedList<Tile> currentPlayerPieces = new LinkedList<>();
+    LinkedList<int[]> legalMoves = new LinkedList<>();
+    if(player == Color.WHITE) {
+      currentPlayerPieces = whites;
+    }
+    else if(player == Color.BLACK) {
+      currentPlayerPieces = blacks;
+    }
+    for (Tile t : currentPlayerPieces) {
+   	  for (int i = -1; i <= 1; i++) {
+        for (int j = -1; j <= 1; j++) {
+          if (i != 0 || j != 0) { //skip if both are zero
+            int x = t.getX() + i;
+            int y = t.getY() + j;
+            if(x >= 0 && x <= 7 && y >= 0 && y <= 7) {
+              Tile t1 = board[x][y];
+              if (t1.getState() != player && t1.getState() != Color.EMPTY) {
+                while (x > 0 && x < 7 && y > 0 && y < 7
+                        && t1.getState() != player
+                         && t1.getState() != Color.EMPTY) {
+                  t1 = board[x += i][y += j];
+                }
+                if (t1.getState() == Color.EMPTY) {
+                  int[] position = {x, y};
+                  if (!legalMoves.contains(position)) {
+                    legalMoves.add(position);
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    return legalMoves;
   }
 
   /**
