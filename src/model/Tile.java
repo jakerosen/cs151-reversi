@@ -74,6 +74,10 @@ public class Tile {
     return (2 * this.getStateNumeric()) % 3 == that.getStateNumeric();
   }
 
+  /**
+   * @param o The other tile
+   * @return Whether this tile has the same Color as o
+   */
   @Override
   public boolean equals(Object o) {
     if(o == this)
@@ -84,6 +88,9 @@ public class Tile {
     return t.color == this.color && t.x == this.x && t.y == this.y;
   }
 
+  /**
+   * @return The hash code of this Tile
+   */
   @Override
   public int hashCode() {
     return (getStateNumeric() * 64) + (x * 8) + y;

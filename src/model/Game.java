@@ -1,5 +1,6 @@
 package model;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
@@ -16,9 +17,13 @@ public class Game {
 	public static void main(String[] args) {
 	  Board board = Board.getBoard();
 	  System.out.println(board);
-	  LinkedList<int[]> moves = board.getLegalMoves(Color.BLACK);
-	  for (int[] pos : moves) {
-	    System.out.println("(" + pos[0] + ", " + pos[1] + ")");
-	  }
+
+	  HashMap<Position, LinkedList<Tile>> moves = board.getLegalMoves(Color.BLACK);
+	  System.out.println(moves);
+	  System.out.println();
+	  
+
+	  board.playPiece(3, 2, Color.BLACK, moves);
+	  System.out.println(board);
 	}
 }

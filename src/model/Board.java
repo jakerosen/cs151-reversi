@@ -1,5 +1,6 @@
 package model;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
@@ -13,6 +14,9 @@ public class Board {
   private LinkedList<Tile> blacks;
   private LinkedList<Tile> whites;
 
+  /**
+   * Initializes the singleton Board.
+   */
   private Board() {
     int n = 8; // 8 by 8 board, 64 tiles total.
     tiles = new Tile[n][n];
@@ -26,7 +30,7 @@ public class Board {
   }
 
   /**
-   * Returns a singleton Board with 64 Tiles
+   * Returns the singleton Board with 64 Tiles
    * @return the Board
    */
   public static Board getBoard() {
@@ -63,15 +67,15 @@ public class Board {
    * @param player The player to get legal moves for
    * @return LinkedList with legal moves positions in format [x, y]
    */
-  public LinkedList<int[]> getLegalMoves(Color player) {
-    LinkedList<Tile> currentPlayerPieces = new LinkedList<>();
-    LinkedList<int[]> legalMoves = new LinkedList<>();
+  public HashMap<Position, LinkedList<Tile>> getLegalMoves(Color player) {
+    LinkedList<Tile> currentPlayerPieces;
     if(player == Color.WHITE) {
       currentPlayerPieces = whites;
-    }
-    else if(player == Color.BLACK) {
+    } else {
       currentPlayerPieces = blacks;
     }
+
+    HashMap<Position, LinkedList<Tile>> legalMoves = new HashMap<>();
     for (Tile t : currentPlayerPieces) {
    	  for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
@@ -81,13 +85,19 @@ public class Board {
             if(x >= 0 && x <= 7 && y >= 0 && y <= 7) {
               Tile t1 = tiles[x][y];
               if (t1.isOppositeColor(t)) {
+                LinkedList<Tile> path = new LinkedList<>();
                 while (x > 0 && x < 7 && y > 0 && y < 7 && t1.isOppositeColor(t)) {
+                  path.add(t1);
                   t1 = tiles[x += i][y += j];
                 }
                 if (t1.getState() == Color.EMPTY) {
-                  int[] position = {x, y};
-                  if (!legalMoves.contains(position)) {
-                    legalMoves.add(position);
+                  Position pos = new Position(x, y);
+                  if (legalMoves.containsKey(pos)) {
+                    // if there is already a path to this position, merge the lists of paths
+                    LinkedList<Tile> existingPath = legalMoves.get(pos);
+                    existingPath.addAll(path);
+                  } else {
+                    legalMoves.put(pos, path);
                   }
                 }
               }
@@ -105,38 +115,16 @@ public class Board {
    * @param x x coord of Tile to play on
    * @param y y coord of Tile to play on
    * @param player Which player to play for
+   * @param legalMoves The map of legal moves and path of pieces to each move (i.e. return value of getLegalMoves)
    */
-  public void playPiece(int x, int y, Color player) {
-    boolean player1Turn = player == Color.BLACK;
-    int playerNum = (player1Turn)? 1:2; //for later hacky stuff
-    LinkedList<Tile> playerPieces = (player1Turn)? blacks:whites;
-    LinkedList<Tile> otherPieces = (player1Turn)? whites:blacks;
-    Tile t = tiles[x][y];
-    for (int i = -1; i <= 1; i++) {
-      for (int j = -1; j <= 1; j++) {
-        if (i != 0 || j != 0) {
-          int x1 = t.getX() + i;
-          int y1 = t.getY() + j;
-          if(x1 >= 0 && x1 <= 7 && y1 >= 0 && y1 <= 7) {
-            Tile t1 = tiles[x1][y1];
-            if (2*t1.getStateNumeric()%3 == playerNum) {
-              while (x1 > 0 && x1 < 7 && y1 > 0 && y1 < 7
-                      && 2*t1.getStateNumeric()%3 == playerNum) {
-                t1 = tiles[x1 += i][y1 += j];
-              }
-              if (t1.getState() == player) {
-                while (x1 != x && y1 != y)
-                {
-                  (t1 = tiles[x1 -= i][y1 -= j]).setState(player);
-                  otherPieces.remove(t1);
-                  if (!playerPieces.contains(t1)) playerPieces.add(t1);
-                }
-              }
-            }
-          }
-        }
-      }
+  public void playPiece(int x, int y, Color player, HashMap<Position, LinkedList<Tile>> legalMoves) {
+    Position pos = new Position(x, y);
+    if (!legalMoves.containsKey(pos)) {
+      throw new IllegalArgumentException("Position " + pos + " is not a legal move.");
     }
+
+    tiles[x][y].setState(player);
+    legalMoves.get(pos).forEach(tile -> tile.setState(player));
   }
 
   /**
