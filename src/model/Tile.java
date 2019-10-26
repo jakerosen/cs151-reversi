@@ -63,6 +63,16 @@ public class Tile {
     if (color == Color.BLACK) return 1;
     return 0;
   }
+  
+  /**
+   * Checks if this tile is the opposite color of param tile.  Vacuously true if both are empty.
+   * 
+   * @param that The other tile
+   * @return Whether this tile is the opposite of param tile.  Vacuously true if both are empty.
+   */
+  public boolean isOppositeColor(Tile that) {
+    return (2 * this.getStateNumeric()) % 3 == that.getStateNumeric();
+  }
 
   @Override
   public boolean equals(Object o) {
@@ -77,5 +87,15 @@ public class Tile {
   @Override
   public int hashCode() {
     return (getStateNumeric() * 64) + (x * 8) + y;
+  }
+  
+  /**
+   * @return A string representation of this tile's state.
+   */
+  @Override
+  public String toString() {
+    if (color == Color.WHITE) return "W";
+    if (color == Color.BLACK) return "B";
+    return "-";
   }
 }

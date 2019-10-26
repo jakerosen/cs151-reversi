@@ -8,7 +8,7 @@ import java.util.LinkedList;
  * Tallies score
  */
 public class Board {
-  private static Board board;
+  private static Board board = new Board();
   private Tile[][] tiles;
   private LinkedList<Tile> blacks;
   private LinkedList<Tile> whites;
@@ -22,14 +22,14 @@ public class Board {
         tiles[i][j] = new Tile(i, j);
       }
     }
-    board.reset();
+    reset();
   }
 
   /**
    * Returns a singleton Board with 64 Tiles
    * @return the Board
    */
-  public Board getBoard() {
+  public static Board getBoard() {
     if (board == null)
       board = new Board();
     return board;
@@ -80,9 +80,8 @@ public class Board {
             int y = t.getY() + j;
             if(x >= 0 && x <= 7 && y >= 0 && y <= 7) {
               Tile t1 = tiles[x][y];
-              if (2*t1.getStateNumeric()%3 == t.getStateNumeric()) {
-                while (x > 0 && x < 7 && y > 0 && y < 7
-                        && 2*t1.getStateNumeric()%3 == t.getStateNumeric()) {
+              if (t1.isOppositeColor(t)) {
+                while (x > 0 && x < 7 && y > 0 && y < 7 && t1.isOppositeColor(t)) {
                   t1 = tiles[x += i][y += j];
                 }
                 if (t1.getState() == Color.EMPTY) {
@@ -152,5 +151,22 @@ public class Board {
       }
     }
     return scores;
+  }
+  
+  /**
+   * @return A string representation of this board.
+   */
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder("  0 1 2 3 4 5 6 7\n");
+    for (int i = 0; i < tiles.length; i++) {
+      Tile[] row = tiles[i];
+      sb.append(i);
+      for (Tile tile : row) {
+        sb.append(' ').append(tile);
+      }
+      sb.append('\n');
+    }
+    return sb.toString();
   }
 }

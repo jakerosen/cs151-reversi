@@ -81,6 +81,15 @@ class TileTest {
 		assertFalse(tile1.equals(notATile));
 		assertFalse(tile2.equals(notATile));
 		assertFalse(tile3.equals(notATile));
+		
+		Tile tile6 = new Tile(0,0);
+		tile6.setState(Color.BLACK);
+		Tile tile7 = new Tile(0,0);
+		tile7.setState(Color.WHITE);
+		assertTrue(tile6.isOppositeColor(tile7));
+		assertTrue(tile7.isOppositeColor(tile6));
+		assertFalse(tile7.isOppositeColor(tile7));
+		assertFalse(tile6.isOppositeColor(tile6));
 	}
 
 }
