@@ -68,6 +68,10 @@ public class Board {
    * @return LinkedList with legal moves positions in format [x, y]
    */
   public HashMap<Position, LinkedList<Tile>> getLegalMoves(Color player) {
+    // TODO: There is a bug with this function right now.  You should not be able to move to an adjacent square without
+    // hopping over an enemy piece, but it seems that you can do that diagonally, currently.
+    // Example: from beginning of game, select (3, 2) as the move for Black.  Notice that it says (5, 5) is a legal move
+    // for White, but it clearly shouldn't be.
     LinkedList<Tile> currentPlayerPieces;
     if(player == Color.WHITE) {
       currentPlayerPieces = whites;
@@ -119,11 +123,22 @@ public class Board {
    */
   public void playPiece(int x, int y, Color player, HashMap<Position, LinkedList<Tile>> legalMoves) {
     Position pos = new Position(x, y);
+    playPiece(pos, player, legalMoves);
+  }
+
+  /**
+   * Places a piece on the Tile in the given location of the color of the given player,
+   * and flips co-linear Tiles accordingly
+   * @param pos The position of the Tile to play on
+   * @param player Which player to play for
+   * @param legalMoves The map of legal moves and path of pieces to each move (i.e. return value of getLegalMoves)
+   */
+  public void playPiece(Position pos, Color player, HashMap<Position, LinkedList<Tile>> legalMoves) {
     if (!legalMoves.containsKey(pos)) {
       throw new IllegalArgumentException("Position " + pos + " is not a legal move.");
     }
 
-    tiles[x][y].setState(player);
+    tiles[pos.getX()][pos.getY()].setState(player);
     legalMoves.get(pos).forEach(tile -> tile.setState(player));
   }
 
@@ -139,6 +154,13 @@ public class Board {
       }
     }
     return scores;
+  }
+  
+  /**
+   * 
+   */
+  public static String displayLegalMoves(HashMap<Position, LinkedList<Tile>> legalMoves) {
+    return "";
   }
   
   /**

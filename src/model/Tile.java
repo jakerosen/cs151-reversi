@@ -6,8 +6,7 @@ package model;
  */
 public class Tile {
   private Color color;
-  private int x;
-  private int y;
+  private Position pos;
 
   /**
    * Creates a new, empty Tile
@@ -20,22 +19,21 @@ public class Tile {
     }
 
     color = Color.EMPTY;
-    this.x = x;
-    this.y = y;
+    pos = new Position(x, y);
   }
 
   /**
    * @return x x coord of this Tile
    */
   public int getX() {
-    return x;
+    return pos.getX();
   }
 
   /**
    * @return y y coord of this Tile
    */
   public int getY() {
-    return y;
+    return pos.getY();
   }
 
   /**
@@ -85,7 +83,7 @@ public class Tile {
     if(o == null || !(o instanceof Tile))
       return false;
     Tile t = (Tile) o;
-    return t.color == this.color && t.x == this.x && t.y == this.y;
+    return t.color == this.color && t.getX() == this.getX() && t.getY() == this.getY();
   }
 
   /**
@@ -93,7 +91,7 @@ public class Tile {
    */
   @Override
   public int hashCode() {
-    return (getStateNumeric() * 64) + (x * 8) + y;
+    return (getStateNumeric() * 64) + (getX() * 8) + getY();
   }
   
   /**
