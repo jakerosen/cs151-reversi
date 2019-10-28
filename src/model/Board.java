@@ -1,6 +1,7 @@
 package model;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 
 /**
@@ -68,10 +69,12 @@ public class Board {
    * @return LinkedList with legal moves positions in format [x, y]
    */
   public HashMap<Position, LinkedList<Tile>> getLegalMoves(Color player) {
-    // TODO: There is a bug with this function right now.  You should not be able to move to an adjacent square without
-    // hopping over an enemy piece, but it seems that you can do that diagonally, currently.
-    // Example: from beginning of game, select (3, 2) as the move for Black.  Notice that it says (5, 5) is a legal move
-    // for White, but it clearly shouldn't be.
+    // TODO: There seems to be another bug that I've found and I'm not sure of the source.
+    // Bug replicated by:
+    // From game start, choose option (3,2) for Black's move and then option (2, 2) for White's move
+    // The moves are made corrrectly, but at this point, it says Black's options for another move are 
+    // (2, 3), (4, 2), and (2, 4).  All of these are correct, however, there should be at least one more possible move,
+    // (1, 2), which does not appear in the list of possible moves.
     LinkedList<Tile> currentPlayerPieces;
     if(player == Color.WHITE) {
       currentPlayerPieces = whites;
@@ -137,9 +140,24 @@ public class Board {
     if (!legalMoves.containsKey(pos)) {
       throw new IllegalArgumentException("Position " + pos + " is not a legal move.");
     }
-
+    
+    LinkedList<Tile> turnPlayerPieces;
+    LinkedList<Tile> otherPlayerPieces;
+    if (player == Color.BLACK) {
+      turnPlayerPieces = blacks;
+      otherPlayerPieces = whites;
+    } else {
+      turnPlayerPieces = whites;
+      otherPlayerPieces = blacks;
+    }
+    
+    LinkedList<Tile> capturedPieces = legalMoves.get(pos);
     tiles[pos.getX()][pos.getY()].setState(player);
-    legalMoves.get(pos).forEach(tile -> tile.setState(player));
+    capturedPieces.forEach(tile -> tile.setState(player));
+
+    turnPlayerPieces.addAll(capturedPieces);
+    HashSet<Tile> cpSet = new HashSet<Tile>(capturedPieces);
+    otherPlayerPieces.removeIf(cpSet::contains);
   }
 
   /**
