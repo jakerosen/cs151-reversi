@@ -134,7 +134,7 @@ public class Board {
     if (!legalMoves.containsKey(pos)) {
       throw new IllegalArgumentException("Position " + pos + " is not a legal move.");
     }
-    
+
     LinkedList<Tile> turnPlayerPieces;
     LinkedList<Tile> otherPlayerPieces;
     if (player == Color.BLACK) {
@@ -144,7 +144,7 @@ public class Board {
       turnPlayerPieces = whites;
       otherPlayerPieces = blacks;
     }
-    
+
     Tile placedPiece = tiles[pos.getX()][pos.getY()];
     LinkedList<Tile> capturedPieces = legalMoves.get(pos);
 
@@ -171,14 +171,7 @@ public class Board {
     }
     return scores;
   }
-  
-  /**
-   * 
-   */
-  public static String displayLegalMoves(HashMap<Position, LinkedList<Tile>> legalMoves) {
-    return "";
-  }
-  
+
   /**
    * @return A string representation of this board.
    */
