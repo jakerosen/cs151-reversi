@@ -69,12 +69,6 @@ public class Board {
    * @return LinkedList with legal moves positions in format [x, y]
    */
   public HashMap<Position, LinkedList<Tile>> getLegalMoves(Color player) {
-    // TODO: There seems to be another bug that I've found and I'm not sure of the source.
-    // Bug replicated by:
-    // From game start, choose option (3,2) for Black's move and then option (2, 2) for White's move
-    // The moves are made corrrectly, but at this point, it says Black's options for another move are 
-    // (2, 3), (4, 2), and (2, 4).  All of these are correct, however, there should be at least one more possible move,
-    // (1, 2), which does not appear in the list of possible moves.
     LinkedList<Tile> currentPlayerPieces;
     if(player == Color.WHITE) {
       currentPlayerPieces = whites;
@@ -151,11 +145,15 @@ public class Board {
       otherPlayerPieces = blacks;
     }
     
+    Tile placedPiece = tiles[pos.getX()][pos.getY()];
     LinkedList<Tile> capturedPieces = legalMoves.get(pos);
-    tiles[pos.getX()][pos.getY()].setState(player);
+
+    placedPiece.setState(player);
     capturedPieces.forEach(tile -> tile.setState(player));
 
     turnPlayerPieces.addAll(capturedPieces);
+    turnPlayerPieces.add(placedPiece);
+
     HashSet<Tile> cpSet = new HashSet<Tile>(capturedPieces);
     otherPlayerPieces.removeIf(cpSet::contains);
   }
