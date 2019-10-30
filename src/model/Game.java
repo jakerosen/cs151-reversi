@@ -21,10 +21,16 @@ public class Game {
 	  playGame();
 	}
 	
+	/**
+	 * Plays a game of Reversi, currently through the console.
+	 */
 	public static void playGame() {
 	  consoleInterface();
 	}
 	
+	/**
+	 * Plays a game of Reversi through the console.
+	 */
 	public static void consoleInterface() {
 	  Scanner input = new Scanner(System.in); // Scanner only used for console version of game
 
@@ -44,21 +50,48 @@ public class Game {
         turnPlayer = Color.flipColor(turnPlayer);
 
       } else {
-        // both players cannot make a legal move, game over
         if (lastPlayerPassed) {
-          // TODO: Determine winner
-          System.out.println(board);
+          // both players cannot make a legal move, game over
+          System.out.println("Neither player has any legal moves.  Game over.");
+
+          // score
+          int blackScore = board.getScoreOf(Color.BLACK);
+          int whiteScore = board.getScoreOf(Color.WHITE);
+          String winner = null;
+          if (blackScore == whiteScore) {
+            // tied score
+            winner = "Tie game";
+          } else {
+            winner = (blackScore > whiteScore) ? "Black" : "White";
+          } 
+
+          System.out.printf("Black score: %d\nWhite score: %d\nWinner: %s\n", blackScore, whiteScore, winner);
+
           input.close();
           return; 
         }
 
         lastPlayerPassed = true;
+        System.out.printf("%s has no legal moves.\n", Color.toString(turnPlayer));
         turnPlayer = Color.flipColor(turnPlayer);
       }
 	  }
 	}
 	
+	/**
+	 * The current player selects a legal position to place a piece.  There must be a legal move to make, or this method
+	 * will throw an Exception.
+	 * 
+	 * @param turnPlayer The current player
+	 * @param legalPositions Array of legal positions to place a piece.  Must be non-empty.
+	 * @param input The input source.
+	 * @return The chosen position to place a piece.
+	 */
 	private static Position selectPosition(Color turnPlayer, ArrayList<Position> legalPositions, Scanner input) {
+	  if (legalPositions.isEmpty()) {
+	    throw new IllegalArgumentException("There must be a legal move to make");
+	  }
+
     System.out.printf("%s's move\n", Color.toString(turnPlayer));
     System.out.println("Please select which position you would like to move to:");
     for (int i = 0; i < legalPositions.size(); i++) {

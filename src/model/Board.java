@@ -159,17 +159,17 @@ public class Board {
   }
 
   /**
-   * Tallies the score of the Board
-   * @return Array containing Empty Tiles, Black Tiles, White Tiles respectively
+   * Calculates the score of a given player.  Undefined behavior if parameter is Color.EMPTY.
+   * 
+   * @param The player's color, BLACK or WHITE.  Undefined behavior if EMPTY.
+   * @return The score of that player.
    */
-  public int[] getScore() {
-    int[] scores = new int[3];
-    for (Tile[] column : tiles) {
-      for (Tile t : column) {
-        scores[t.getStateNumeric()]++;
-      }
+  public int getScoreOf(Color player) {
+    if (player == Color.BLACK) {
+      return blacks.size();
+    } else {
+      return whites.size();
     }
-    return scores;
   }
 
   /**
