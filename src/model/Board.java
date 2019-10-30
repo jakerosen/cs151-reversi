@@ -160,8 +160,8 @@ public class Board {
 
   /**
    * Calculates the score of a given player.  Undefined behavior if parameter is Color.EMPTY.
-   * 
-   * @param The player's color, BLACK or WHITE.  Undefined behavior if EMPTY.
+   *
+   * @param player The player's color, BLACK or WHITE.  Undefined behavior if EMPTY.
    * @return The score of that player.
    */
   public int getScoreOf(Color player) {
