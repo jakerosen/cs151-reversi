@@ -8,10 +8,10 @@ package model;
 public final class Position {
   private int x; // col
   private int y; // row
-  
+
   /**
    * x and y must be between [0, 7], or an exception will be thrown.
-   * 
+   *
    * @param x Col
    * @param y Row
    */
@@ -19,11 +19,11 @@ public final class Position {
     if (x < 0 || x > 7 || y < 0 || y > 7) {
       throw new IllegalArgumentException("x and y must be between [0,7]");
     }
-    
+
     this.x = x;
     this.y = y;
   }
-  
+
   /**
    * @return x coord
    */
@@ -37,10 +37,10 @@ public final class Position {
   public int getY() {
     return y;
   }
-  
+
   /**
    * @param o The other Position
-   * 
+   *
    * @return whether this Position is the same as o
    */
   @Override
@@ -60,7 +60,7 @@ public final class Position {
   public int hashCode() {
     return x * 8 + y;
   }
-  
+
   /**
    * @return A string representation of this Position
    */

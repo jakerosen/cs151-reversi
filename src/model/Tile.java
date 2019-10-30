@@ -51,7 +51,7 @@ public class Tile {
   public Color getState() {
     return color;
   }
-  
+
   /**
    * Gets a numeric representation of the state of this Tile
    * @return 0 for empty Tile, 1 for Black Tile, 2 for White Tile
@@ -61,10 +61,10 @@ public class Tile {
     if (color == Color.BLACK) return 1;
     return 0;
   }
-  
+
   /**
    * Checks if this tile is the opposite color of param tile.  Vacuously true if both are empty.
-   * 
+   *
    * @param that The other tile
    * @return Whether this tile is the opposite of param tile.  Vacuously true if both are empty.
    */
@@ -93,7 +93,7 @@ public class Tile {
   public int hashCode() {
     return (getStateNumeric() * 64) + (getX() * 8) + getY();
   }
-  
+
   /**
    * @return A string representation of this tile's state.
    */

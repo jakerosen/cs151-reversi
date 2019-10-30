@@ -9,32 +9,32 @@ import java.util.Scanner;
  */
 public class ConsoleInterface extends OutputStrategy implements InputStrategy {
   private static Scanner input = new Scanner(System.in);
-  
-/**
- * An input and output strategy using the console with the default System.out as the PrintStream to send messages to.
- */
+
+  /**
+   * An input and output strategy using the console with the default System.out as the PrintStream to send messages to.
+   */
   public ConsoleInterface() {
     super(System.out);
   }
 
-/**
- * An input and output strategy using the console.
- * 
- * @param out The PrintStream to send messages to.
- */
+  /**
+   * An input and output strategy using the console.
+   *
+   * @param out The PrintStream to send messages to.
+   */
   public ConsoleInterface(PrintStream out) {
     super(out);
   }
-  
-	/**
-	 * The current player selects a legal position to place a piece.  There must be a legal move to make, or this method
-	 * will throw an Exception.
-	 * 
-	 * @param turnPlayer The current player
-	 * @param legalPositions Array of legal positions to place a piece.  Must be non-empty.
-	 * @return The chosen position to place a piece.
-	 */
-	public Position selectPosition(Color turnPlayer, ArrayList<Position> legalPositions) {
+
+  /**
+   * The current player selects a legal position to place a piece.  There must be a legal move to make, or this method
+   * will throw an Exception.
+   *
+   * @param turnPlayer The current player
+   * @param legalPositions Array of legal positions to place a piece.  Must be non-empty.
+   * @return The chosen position to place a piece.
+   */
+  public Position selectPosition(Color turnPlayer, ArrayList<Position> legalPositions) {
     if (legalPositions.isEmpty()) {
       throw new IllegalArgumentException("There must be a legal move to make");
     }
@@ -62,11 +62,11 @@ public class ConsoleInterface extends OutputStrategy implements InputStrategy {
     }
 
     return selectedPosition;
-	}
-  
+  }
+
   /**
    * Displays the board.
-   * 
+   *
    * @param board The board.
    */
   public void displayBoard(Board board) {

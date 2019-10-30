@@ -8,10 +8,10 @@ import java.io.PrintStream;
  */
 public abstract class OutputStrategy {
   private PrintStream out;
-  
+
   /**
    * An output strategy that sends PrintStream messages to the given PrintStream.
-   * 
+   *
    * @param out The PrintStream to send messages to.
    */
   public OutputStrategy(PrintStream out) {
@@ -20,11 +20,11 @@ public abstract class OutputStrategy {
 
   /**
    * Displays the board.
-   * 
+   *
    * @param board The board.
    */
   public abstract void displayBoard(Board board);
-  
+
   /**
    * @return The PrintStream used to send messages to.
    */

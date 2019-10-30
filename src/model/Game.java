@@ -12,32 +12,32 @@ import java.util.LinkedList;
  * Reports final score
  */
 public class Game {
-	/**
-	 * Initializes the Game, runs the main loop
-	 * @param args Unused
-	 */
-	public static void main(String[] args) {
-	  consoleInterface();
-	}
-	
-	/**
-	 * Plays a game of Reversi
-	 * 
-	 * @param input The strategy to get user input for making a move
-	 * @param output The strategy of displaying output
-	 */
-	public static void playGame(InputStrategy input, OutputStrategy output) {
-	  PrintStream outStream = output.getStream();
+  /**
+   * Initializes the Game, runs the main loop
+   * @param args Unused
+   */
+  public static void main(String[] args) {
+    consoleInterface();
+  }
 
-	  Color turnPlayer = Color.BLACK;
-	  boolean lastPlayerPassed = false;
-	  Board board = Board.getBoard();
-	  
-	  while (true) {
-	    output.displayBoard(board);
+  /**
+   * Plays a game of Reversi
+   *
+   * @param input The strategy to get user input for making a move
+   * @param output The strategy of displaying output
+   */
+  public static void playGame(InputStrategy input, OutputStrategy output) {
+    PrintStream outStream = output.getStream();
+
+    Color turnPlayer = Color.BLACK;
+    boolean lastPlayerPassed = false;
+    Board board = Board.getBoard();
+
+    while (true) {
+      output.displayBoard(board);
       HashMap<Position, LinkedList<Tile>> moves = board.getLegalMoves(turnPlayer);
       ArrayList<Position> legalPositions = new ArrayList<Position>(moves.keySet());
-      
+
       if (legalPositions.size() > 0) {
         lastPlayerPassed = false;
         Position selectedPosition = input.selectPosition(turnPlayer, legalPositions);
@@ -58,26 +58,26 @@ public class Game {
             winner = "Tie game";
           } else {
             winner = (blackScore > whiteScore) ? "Black" : "White";
-          } 
+          }
 
           outStream.printf("Black score: %d\nWhite score: %d\nWinner: %s\n", blackScore, whiteScore, winner);
 
-          return; 
+          return;
         }
 
         lastPlayerPassed = true;
         outStream.printf("%s has no legal moves.\n", Color.toString(turnPlayer));
         turnPlayer = Color.flipColor(turnPlayer);
       }
-	  }
-	}
-	
-	/**
-	 * Plays a game of Reversi through the console.
-	 */
-	public static void consoleInterface() {
-	  ConsoleInterface console = new ConsoleInterface(System.out);
-	  playGame(console, console);
-	}
-	
+    }
+  }
+
+  /**
+   * Plays a game of Reversi through the console.
+   */
+  public static void consoleInterface() {
+    ConsoleInterface console = new ConsoleInterface(System.out);
+    playGame(console, console);
+  }
+
 }

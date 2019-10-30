@@ -78,7 +78,7 @@ public class Board {
 
     HashMap<Position, LinkedList<Tile>> legalMoves = new HashMap<>();
     for (Tile t : currentPlayerPieces) {
-   	  for (int i = -1; i <= 1; i++) {
+      for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
           if (i != 0 || j != 0) { //skip if both are zero
             int x = t.getX() + i;

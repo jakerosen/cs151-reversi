@@ -6,8 +6,8 @@ package model;
  * (Also used to distinguish players, black and white)
  */
 public enum Color {
-	EMPTY, BLACK, WHITE;
-  
+  EMPTY, BLACK, WHITE;
+
   public static Color flipColor(Color color) {
     if (color == BLACK) {
       return WHITE;
@@ -19,7 +19,7 @@ public enum Color {
 
     return EMPTY;
   }
-  
+
   public static String toString(Color color) {
     if (color == BLACK) {
       return "Black";
@@ -28,7 +28,7 @@ public enum Color {
     if (color == WHITE) {
       return "White";
     }
-    
+
     return "EMPTY";
   }
 }
