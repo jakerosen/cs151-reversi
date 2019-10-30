@@ -83,11 +83,11 @@ public class Board {
           if (i != 0 || j != 0) { //skip if both are zero
             int x = t.getX() + i;
             int y = t.getY() + j;
-            if(x >= 0 && x <= 7 && y >= 0 && y <= 7) {
+            if((i == 0 || (x >= 0 && x <= 7)) && (j == 0 || (y >= 0 && y <= 7))) {
               Tile t1 = tiles[x][y];
               if (t1.isOppositeColor(t)) {
                 LinkedList<Tile> path = new LinkedList<>();
-                while (x > 0 && x < 7 && y > 0 && y < 7 && t1.isOppositeColor(t)) {
+                while ((i == 0 || (x > 0 && x < 7)) && (j == 0 || (y > 0 && y < 7)) && t1.isOppositeColor(t)) {
                   path.add(t1);
                   t1 = tiles[x += i][y += j];
                 }
