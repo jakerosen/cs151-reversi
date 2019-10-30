@@ -1,0 +1,16 @@
+Pattern: Strategy
+
+Context: Define how to collect input from the turn player to make a move.
+
+Motivation: Regardless of how the user input is collected, the action of making
+  the move in the game logic is the same. The strategy design pattern allows us
+  to use the same core game logic regardless of which user interface we are
+  using, and we pass in which strategy (UI) we would like to use.
+
+Implementation: We implemented an interface, InputStrategy, which has a single
+  method that returns the selected position that the turn player would like to
+  move to.  A concrete class, ConsoleInterface, implements InputStrategy and
+  uses a Scanner to collect the user input from System.in.  When implemented,
+  the graphical version of the game will have a concrete class that implements
+  InputStrategy which will use a JButton with an ActionListener to get the
+  user input.
