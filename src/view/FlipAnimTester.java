@@ -1,6 +1,10 @@
 package view;
 
 import java.awt.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
 import model.Color;
 import javax.swing.*;
 
@@ -20,16 +24,15 @@ public class FlipAnimTester {
     frame.pack();
     frame.setVisible(true);
     while (true) {
-      piece1.flip();
-      piece2.flip();
-      for (int theta = 3; theta <= 180; theta += 3) {
-        piece1.setTheta(theta);
-        piece2.setTheta(theta);
-        label1.repaint();
-        label2.repaint();
-        try {Thread.sleep(16);} catch (Exception e) {} // Terrible way to do this, but it gets the job done.
+      ExecutorService es = Executors.newCachedThreadPool();
+      es.execute(() -> piece1.flip(label1));
+      es.execute(() -> piece2.flip(label2));
+      es.shutdown();
+      try {
+        es.awaitTermination(1, TimeUnit.SECONDS);
+      } catch (InterruptedException e) {
+        System.err.println("error: thread interrupted");
       }
-      try {Thread.sleep(984);} catch (Exception e) {}
     }
   }
 }

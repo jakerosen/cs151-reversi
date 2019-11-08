@@ -4,6 +4,8 @@ import model.Color;
 import java.awt.*;
 import java.awt.geom.*;
 
+import javax.swing.JLabel;
+
 public class ReversiPiece {
   private int x;
   private int y;
@@ -48,9 +50,19 @@ public class ReversiPiece {
     g2.fill(outer);
   }
   
-  public void flip() {
+  public void flip(JLabel label) {
     if (state == Color.BLACK) state = Color.WHITE;
     else state = Color.BLACK;
+
+    for (int theta = 3; theta <= 180; theta += 3) {
+      setTheta(theta);
+      label.repaint();
+      try {
+        Thread.sleep(16);
+      } catch (InterruptedException e) {
+        System.err.println("error: thread interrupted");
+      }
+    }
   }
   
   private Area setBlackArea(Ellipse2D.Double inner) {
