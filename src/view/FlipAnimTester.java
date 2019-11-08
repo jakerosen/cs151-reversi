@@ -7,10 +7,10 @@ import javax.swing.*;
 public class FlipAnimTester {
   public static void main(String[] args) {
     JFrame frame = new JFrame();
-    final ReversiPiece piece1 = new ReversiPiece(25, 25, 200);
+    final ReversiPiece piece1 = new ReversiPiece(0, 0, 248);
     final ReversiPiece piece2 = new ReversiPiece(25, 25, 200, Color.WHITE);
-    PieceIcon icon1 = new PieceIcon(piece1, 250, 250);
-    PieceIcon icon2 = new PieceIcon(piece2, 250, 250);
+    TileIcon icon1 = new TileIcon(piece1, 250, 250);
+    TileIcon icon2 = new TileIcon(piece2, 250, 250);
     final JLabel label1 = new JLabel(icon1);
     final JLabel label2 = new JLabel(icon2);
     frame.setLayout(new FlowLayout());

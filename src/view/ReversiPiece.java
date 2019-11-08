@@ -5,6 +5,13 @@ import java.awt.*;
 import java.awt.geom.*;
 
 public class ReversiPiece {
+  private int x;
+  private int y;
+  private int width;
+  private Color state;
+  private int theta;
+  private Area bounds;
+  private Area leftHalf;
   
   public ReversiPiece(int x, int y, int width) {
     this(x, y, width, Color.BLACK);
@@ -17,7 +24,7 @@ public class ReversiPiece {
 	  this.state = state;
 	  theta = 180;
 	  bounds = new Area(new Rectangle2D.Double(x, y, width, width));
-      leftHalf = new Area(new Rectangle2D.Double(x, y, width / 2., width));
+    leftHalf = new Area(new Rectangle2D.Double(x, y, width / 2., width));
   }
   
   public void setTheta(int theta) {
@@ -58,12 +65,4 @@ public class ReversiPiece {
     if (state == Color.WHITE) black.exclusiveOr(bounds);
     return black;
   }
-  
-  private int x;
-  private int y;
-  private int width;
-  private Color state;
-  private int theta;
-  private Area bounds;
-  private Area leftHalf;
 }

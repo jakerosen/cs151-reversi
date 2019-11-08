@@ -44,6 +44,8 @@ public class Game {
         board.playPiece(selectedPosition, turnPlayer, moves);
         turnPlayer = Color.flipColor(turnPlayer);
 
+        output.updateBoard(board, selectedPosition, moves.get(selectedPosition));
+
       } else {
         if (lastPlayerPassed) {
           // both players cannot make a legal move, game over

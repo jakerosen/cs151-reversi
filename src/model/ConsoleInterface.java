@@ -2,6 +2,7 @@ package model;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 /**
@@ -38,26 +39,28 @@ public class ConsoleInterface extends OutputStrategy implements InputStrategy {
     if (legalPositions.isEmpty()) {
       throw new IllegalArgumentException("There must be a legal move to make");
     }
+    
+    PrintStream out = getStream();
 
-    System.out.printf("%s's move\n", Color.toString(turnPlayer));
-    System.out.println("Please select which position you would like to move to:");
+    out.printf("%s's move\n", Color.toString(turnPlayer));
+    out.println("Please select which position you would like to move to:");
     for (int i = 0; i < legalPositions.size(); i++) {
       // note that for ease of use for the user, the menu index starts count at 1, which makes it +1 shift from actual
       // array index
-      System.out.printf("%d. %s\n", i + 1, legalPositions.get(i));
+      out.printf("%d. %s\n", i + 1, legalPositions.get(i));
     }
 
     Position selectedPosition = null;
     while (selectedPosition == null) {
-      System.out.print("Your Choice: ");
+      out.print("Your Choice: ");
       int selection = 0;
       try {
         selection = Integer.parseInt(input.nextLine()) - 1;  // must shift menu index to array index (see above note)
         selectedPosition = legalPositions.get(selection);
       } catch (NumberFormatException e) {
-        System.out.println("Please enter one of the numbers in range");
+        out.println("Please enter one of the numbers in range");
       } catch (IndexOutOfBoundsException e) {
-        System.out.println("Please enter one of the numbers in range");
+        out.println("Please enter one of the numbers in range");
       }
     }
 
@@ -70,6 +73,20 @@ public class ConsoleInterface extends OutputStrategy implements InputStrategy {
    * @param board The board.
    */
   public void displayBoard(Board board) {
-    System.out.println(board);
+    getStream().println(board);
+  }
+  
+  /**
+   * Updates the board according to the piece played. This method does not change the state of the board, it merely
+   * displays changes that were made.
+   * 
+   * No op for console interface.
+   * 
+   * @param board The board
+   * @param placedPiece The position of the piece that was just played
+   * @param flippedPieces The pieces that were flipped during this turn.
+   */
+  public void updateBoard(Board board, Position placedPiece, LinkedList<Tile> flippedPieces) {
+    return; // No op for console interface; the whole board is displayed each turn.
   }
 }
