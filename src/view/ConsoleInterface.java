@@ -1,9 +1,14 @@
-package model;
+package view;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Scanner;
+
+import model.Board;
+import model.Color;
+import model.Position;
+import model.Tile;
 
 /**
  * An input and output strategy using the console.
@@ -86,6 +91,7 @@ public class ConsoleInterface extends OutputStrategy implements InputStrategy {
    * @param placedPiece The position of the piece that was just played
    * @param flippedPieces The pieces that were flipped during this turn.
    */
+  @Override
   public void updateBoard(Board board, Position placedPiece, LinkedList<Tile> flippedPieces) {
     return; // No op for console interface; the whole board is displayed each turn.
   }

@@ -1,6 +1,9 @@
-package model;
+package view;
 
 import java.util.ArrayList;
+
+import model.Color;
+import model.Position;
 
 /**
  * Defines a strategy for collecting input from the turn player to make a move.

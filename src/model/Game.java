@@ -1,9 +1,14 @@
 package model;
 
 import java.io.PrintStream;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+
+import view.ConsoleInterface;
+import view.InputStrategy;
+import view.OutputStrategy;
 
 /**
  * Runs the logic for Reversi,

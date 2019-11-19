@@ -1,7 +1,11 @@
-package model;
+package view;
 
 import java.io.PrintStream;
 import java.util.LinkedList;
+
+import model.Board;
+import model.Position;
+import model.Tile;
 
 /**
  * Defines a strategy for displaying output to the user.  An output strategy must be able to display the board and also
