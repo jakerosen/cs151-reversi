@@ -1,5 +1,7 @@
 package view;
 
+import java.awt.Dimension;
+
 import javax.swing.JLabel;
 
 import model.Tile;
@@ -9,6 +11,7 @@ public class TileLabel extends JLabel {
   
   public TileLabel(Tile piece, int width) {
     super();
+    setPreferredSize(new Dimension(width, width));
     tile = new TileIcon(piece, width);
     setIcon(tile);
   }

@@ -62,6 +62,18 @@ public class Board {
       }
     }
   }
+  
+  public Tile getTile(int x, int y) {
+    if (x < 0 || x > 7 || y < 0 || y > 7) {
+      throw new IllegalArgumentException("x and y must be between [0,7]");
+    }
+
+    return tiles[x][y];
+  }
+
+  public Tile getTile(Position pos) {
+    return getTile(pos.getX(), pos.getY());
+  }
 
   /**
    * Gets legal moves for current player

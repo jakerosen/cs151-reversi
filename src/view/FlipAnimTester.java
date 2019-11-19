@@ -5,6 +5,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import model.Board;
 import model.Color;
 import model.Tile;
 
@@ -12,6 +13,7 @@ import javax.swing.*;
 
 public class FlipAnimTester {
   public static void main(String[] args) {
+    /*
     JFrame frame = new JFrame();
     Tile t1 = new Tile(0, 0);
     Tile t2 = new Tile(0, 0);
@@ -44,5 +46,14 @@ public class FlipAnimTester {
         System.err.println("error: thread interrupted");
       }
     }
+    */
+    
+    testGUI();
+  }
+  
+  public static void testGUI() {
+    Board board = Board.getBoard();
+    GUInterface gui = new GUInterface();
+    gui.displayBoard(board);
   }
 }
