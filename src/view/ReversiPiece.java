@@ -6,7 +6,7 @@ import java.awt.geom.*;
 
 import javax.swing.JLabel;
 
-public class ReversiPiece {
+public class ReversiPiece extends AbstractPiece {
   private int x;
   private int y;
   private int width;
