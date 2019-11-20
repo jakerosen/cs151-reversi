@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 
 import model.Tile;
 
@@ -31,8 +32,20 @@ public class TileShell extends JButton {
     repaint();
   }
   
-  public void flip() {
-    tile.flip(this);
+  public void flip(JComponent comp) {
+    tile.flip(comp);
+  }
+  
+  public void enableTile() {
+    setEnabled(true);
+    tile.setBackgroundColor(Color.RED);
+    repaint();
+  }
+
+  public void disableTile(JComponent comp) {
+    setEnabled(false);
+    tile.setBackgroundColor(new Color(34, 139, 34));
+    comp.repaint();
   }
 
   /**

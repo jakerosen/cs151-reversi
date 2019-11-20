@@ -7,20 +7,32 @@ import java.util.concurrent.TimeUnit;
 
 import model.Board;
 import model.Color;
+import model.Game;
 import model.Tile;
 
 import javax.swing.*;
 
-public class FlipAnimTester {
+public class ViewTester {
   public static void main(String[] args) {
-    /*
-    JFrame frame = new JFrame();
-    Tile t1 = new Tile(0, 0);
-    Tile t2 = new Tile(0, 0);
-    t1.setState(Color.BLACK);
-    t2.setState(Color.WHITE);
-    //final ReversiPiece piece1 = new ReversiPiece(0, 0, 248);
-    //final ReversiPiece piece2 = new ReversiPiece(25, 25, 200, Color.WHITE);
+    testGUI();
+  }
+  
+  public static void testGUI() {
+    Game game = new Game();
+    Board board = game.getBoard();
+    GUInterface gui = new GUInterface();
+    gui.displayBoard(board);
+    
+    while (true) {
+      game.getLegalMoves();
+      gui.displayLegalMoves(game);
+      while (!gui.isTimeToWakeUp());
+      gui.setWakeUp(false);
+    }
+  }
+  
+  public static void testFlipAnimation() {
+    JFrame frame = new JFrame(); Tile t1 = new Tile(0, 0); Tile t2 = new Tile(0, 0); t1.setState(Color.BLACK); t2.setState(Color.WHITE); //final ReversiPiece piece1 = new ReversiPiece(0, 0, 248); //final ReversiPiece piece2 = new ReversiPiece(25, 25, 200, Color.WHITE);
     //TileIcon icon1 = new TileIcon(piece1, 250, 250);
     //TileIcon icon2 = new TileIcon(piece2, 250, 250);
     //TileIcon icon1 = new TileIcon(t1, 250);
@@ -37,8 +49,8 @@ public class FlipAnimTester {
     frame.setVisible(true);
     while (true) {
       ExecutorService es = Executors.newCachedThreadPool();
-      es.execute(() -> label1.flip());
-      es.execute(() -> label2.flip());
+      es.execute(() -> label1.flip(label1));
+      es.execute(() -> label2.flip(label2));
       es.shutdown();
       try {
         es.awaitTermination(1, TimeUnit.SECONDS);
@@ -46,14 +58,5 @@ public class FlipAnimTester {
         System.err.println("error: thread interrupted");
       }
     }
-    */
-    
-    testGUI();
-  }
-  
-  public static void testGUI() {
-    Board board = Board.getBoard();
-    GUInterface gui = new GUInterface();
-    gui.displayBoard(board);
   }
 }

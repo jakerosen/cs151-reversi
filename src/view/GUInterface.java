@@ -5,6 +5,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -15,18 +21,27 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import model.Board;
+import model.Game;
+import model.Position;
 import model.Tile;
 
-// will extend OutputStrategy eventually, and probably implement InputStrategy
-public class GUInterface {
+public class GUInterface {//implements InputStrategy, OutputStrategy {
   private JFrame frame;
   private JPanel board;
+  private TileShell[][] tiles;
   private PrintStream out;
   private TileShell turnPiece;
   private model.Color turnPlayer;
   private JLabel turnPlayerLabel;
+  private boolean wakeUp; // This is to wait for the button to be pressed... it's the best I've got right now.
   
   public GUInterface() {
+    wakeUp = false;
+    tiles = new TileShell[8][8];
+    for (int i = 0; i < 8; i++) {
+      tiles[i] = new TileShell[8];
+    }
+
     // init window
     frame = new JFrame();
     frame.setLayout(new BorderLayout());
@@ -93,8 +108,78 @@ public class GUInterface {
         TileShell tile = new TileShell(board.getTile(i, j), 100);
         tile.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         this.board.add(tile);
+        tiles[i][j] = tile;
       }
     }
     frame.setVisible(true);
+  }
+
+  /**
+   * This method is not implemented.
+   */
+  public Position selectPosition(Game game) {
+    return null;
+  }
+  
+  /**
+   * Updates the board according to the piece played. This method does not change the state of the board, it merely
+   * displays changes that were made.
+   * 
+   * @param board The board
+   * @param placedPiece The position of the piece that was just played
+   * @param flippedPieces The pieces that were flipped during this turn.
+   */
+  public void updateBoard(Board board, Position selectedPosition, LinkedList<Tile> flippedPieces) {
+    int x = selectedPosition.getX();
+    int y = selectedPosition.getY();
+    tiles[x][y].placePiece(board.getTile(selectedPosition));
+    ExecutorService es = Executors.newCachedThreadPool();
+
+               System.out.println(flippedPieces);
+
+    for (Tile tile : flippedPieces) {
+      es.execute(() -> tiles[tile.getX()][tile.getY()].flip(this.board));
+    }
+    es.shutdown();
+    try {
+      es.awaitTermination(1, TimeUnit.SECONDS);
+    } catch (InterruptedException e) {
+      System.err.println("error: thread interrupted");
+    }
+  }
+  
+  public void displayLegalMoves(Game game) {
+    HashMap<Position, LinkedList<Tile>> moves = game.getCurrentMoves();
+    ArrayList<Position> legalPositions = new ArrayList<Position>(moves.keySet());
+    //LinkedList<Tile> flippedPieces = game.getFlippedPieces();
+    Board board = game.getBoard();
+
+    for (Position pos : legalPositions) {
+      int x = pos.getX();
+      int y = pos.getY();
+      tiles[x][y].addActionListener(e -> {
+        for (Position p : legalPositions) {
+          tiles[p.getX()][p.getY()].disableTile(this.board);
+        }
+        game.playPiece(pos);
+        // change turn player for UI, todo
+        updateBoard(board, pos, moves.get(pos));
+        wakeUp = true;
+      });
+        
+      tiles[x][y].enableTile();
+    }
+  }
+  
+  public boolean isTimeToWakeUp() {
+    return wakeUp;
+  }
+  
+  public void setWakeUp(boolean w) {
+    wakeUp = w;
+  }
+
+  public PrintStream getStream() {
+    return out;
   }
 }

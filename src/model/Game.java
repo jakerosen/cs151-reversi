@@ -17,12 +17,41 @@ import view.OutputStrategy;
  * Reports final score
  */
 public class Game {
+  private Board board;
+  private Color turnPlayer;
+  private HashMap<Position, LinkedList<Tile>> currentMoves;
+  private LinkedList<Tile> flippedPieces;
+  private boolean lastPlayerPassed;
+
   /**
    * Initializes the Game, runs the main loop
    * @param args Unused
    */
   public static void main(String[] args) {
     consoleInterface();
+  }
+  
+  /**
+   * Initializes the game model.
+   */
+  public Game() {
+    board = Board.getBoard();
+    turnPlayer = Color.BLACK;
+    currentMoves = null;
+    lastPlayerPassed = false;
+  }
+  
+  public void getLegalMoves() {
+    currentMoves = board.getLegalMoves(turnPlayer);
+  }
+  
+  public void playPiece(Position selectedPosition) {
+    flippedPieces = currentMoves.get(selectedPosition);
+    board.playPiece(selectedPosition, turnPlayer, currentMoves);
+  }
+  
+  public void switchPlayers() {
+    turnPlayer = Color.flipColor(turnPlayer);
   }
 
   /**
@@ -32,33 +61,33 @@ public class Game {
    * @param output The strategy of displaying output
    */
   public static void playGame(InputStrategy input, OutputStrategy output) {
+    Game game = new Game();
     PrintStream outStream = output.getStream();
 
-    Color turnPlayer = Color.BLACK;
-    boolean lastPlayerPassed = false;
-    Board board = Board.getBoard();
+    //turnPlayer = Color.BLACK;
+    //Board board = Board.getBoard();
+    //boolean lastPlayerPassed = false;
 
     while (true) {
-      output.displayBoard(board);
-      HashMap<Position, LinkedList<Tile>> moves = board.getLegalMoves(turnPlayer);
-      ArrayList<Position> legalPositions = new ArrayList<Position>(moves.keySet());
+      output.displayBoard(game.board);
+      game.getLegalMoves();
 
-      if (legalPositions.size() > 0) {
-        lastPlayerPassed = false;
-        Position selectedPosition = input.selectPosition(turnPlayer, legalPositions);
-        board.playPiece(selectedPosition, turnPlayer, moves);
-        turnPlayer = Color.flipColor(turnPlayer);
-
-        output.updateBoard(board, selectedPosition, moves.get(selectedPosition));
+      if (game.currentMoves.size() > 0) {
+        game.lastPlayerPassed = false;
+        output.displayLegalMoves(game);
+        Position selectedPosition = input.selectPosition(game);
+        game.playPiece(selectedPosition);
+        game.switchPlayers();
+        output.updateBoard(game.getBoard(), selectedPosition, game.getCurrentMoves().get(selectedPosition));
 
       } else {
-        if (lastPlayerPassed) {
+        if (game.lastPlayerPassed) {
           // both players cannot make a legal move, game over
           outStream.println("Neither player has any legal moves.  Game over.");
 
           // score
-          int blackScore = board.getScoreOf(Color.BLACK);
-          int whiteScore = board.getScoreOf(Color.WHITE);
+          int blackScore = game.board.getScoreOf(Color.BLACK);
+          int whiteScore = game.board.getScoreOf(Color.WHITE);
           String winner = null;
           if (blackScore == whiteScore) {
             // tied score
@@ -72,9 +101,9 @@ public class Game {
           return;
         }
 
-        lastPlayerPassed = true;
-        outStream.printf("%s has no legal moves.\n", Color.toString(turnPlayer));
-        turnPlayer = Color.flipColor(turnPlayer);
+        game.lastPlayerPassed = true;
+        outStream.printf("%s has no legal moves.\n", Color.toString(game.turnPlayer));
+        game.turnPlayer = Color.flipColor(game.turnPlayer);
       }
     }
   }
@@ -85,6 +114,26 @@ public class Game {
   public static void consoleInterface() {
     ConsoleInterface console = new ConsoleInterface(System.out);
     playGame(console, console);
+  }
+
+  public Board getBoard() {
+    return board;
+  }
+
+  public Color getTurnPlayer() {
+    return turnPlayer;
+  }
+
+  public HashMap<Position, LinkedList<Tile>> getCurrentMoves() {
+    return currentMoves;
+  }
+  
+  public LinkedList<Tile> getFlippedPieces() {
+    return flippedPieces;
+  }
+
+  public boolean isLastPlayerPassed() {
+    return lastPlayerPassed;
   }
 
 }

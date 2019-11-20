@@ -53,8 +53,12 @@ public class TileIcon implements Icon {
     this.piece = new ReversiPiece(width/20, width/20, width - width/10, piece.getState());
   }
   
-  public void flip(JButton button) {
-    piece.flip(button);
+  public void flip(JComponent comp) {
+    piece.flip(comp);
+  }
+  
+  public void setBackgroundColor(Color backgroundColor) {
+    this.backgroundColor = backgroundColor;
   }
 }
 

@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.geom.*;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 
 public class ReversiPiece extends AbstractPiece {
   private int x;
@@ -50,13 +51,13 @@ public class ReversiPiece extends AbstractPiece {
     g2.fill(outer);
   }
   
-  public void flip(JButton button) {
+  public void flip(JComponent comp) {
     if (state == Color.BLACK) state = Color.WHITE;
     else state = Color.BLACK;
 
     for (int theta = 3; theta <= 180; theta += 3) {
       setTheta(theta);
-      button.repaint();
+      comp.repaint();
       try {
         Thread.sleep(16);
       } catch (InterruptedException e) {
