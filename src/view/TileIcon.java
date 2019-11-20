@@ -16,13 +16,20 @@ public class TileIcon implements Icon {
 
   private int width;
   private AbstractPiece piece;
+  private Color backgroundColor;
   
   public TileIcon(Tile tile, int width) {
     model.Color color = tile.getState();
     this.width = width;
-    piece = (color == model.Color.EMPTY) ? new EmptyPiece() : new ReversiPiece(10, 10, width - width/10);
-    
-    //label = 
+    piece = (color == model.Color.EMPTY) ? new EmptyPiece() : new ReversiPiece(width/20, width/20, width - width/10, color);
+    backgroundColor = new Color(34, 139, 34);
+  }
+
+  public TileIcon(Tile tile, int width, Color backgroundColor) {
+    model.Color color = tile.getState();
+    this.width = width;
+    piece = (color == model.Color.EMPTY) ? new EmptyPiece() : new ReversiPiece(width/20, width/20, width - width/10, color);
+    this.backgroundColor = backgroundColor;
   }
    
   public int getIconWidth() {
@@ -33,9 +40,9 @@ public class TileIcon implements Icon {
      return width;
   }
 
-  public void paintIcon(Component c, Graphics g, int x, int y) { Graphics2D g2 = (Graphics2D) g;
-
-    g2.setColor(new Color(34, 139, 34));
+  public void paintIcon(Component c, Graphics g, int x, int y) { 
+    Graphics2D g2 = (Graphics2D) g;
+    g2.setColor(backgroundColor);
     Rectangle2D.Double tile = new Rectangle2D.Double(0, 0, width, width);
     g2.fill(tile);
 
@@ -43,11 +50,11 @@ public class TileIcon implements Icon {
   }
   
   public void placePiece(Tile piece) {
-    this.piece = new ReversiPiece(10, 10, width - width/10);
+    this.piece = new ReversiPiece(width/20, width/20, width - width/10, piece.getState());
   }
   
-  public void flip(JLabel label) {
-    piece.flip(label);
+  public void flip(JButton button) {
+    piece.flip(button);
   }
 }
 

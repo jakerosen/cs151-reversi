@@ -1,19 +1,29 @@
 package view;
 
+import java.awt.Color;
 import java.awt.Dimension;
 
-import javax.swing.JLabel;
+import javax.swing.JButton;
 
 import model.Tile;
 
-public class TileLabel extends JLabel {
+public class TileShell extends JButton {
   private TileIcon tile;
   
-  public TileLabel(Tile piece, int width) {
+  public TileShell(Tile piece, int width) {
     super();
     setPreferredSize(new Dimension(width, width));
     tile = new TileIcon(piece, width);
     setIcon(tile);
+    setEnabled(false);
+  }
+
+  public TileShell(Tile piece, int width, Color backgroundColor) {
+    super();
+    setPreferredSize(new Dimension(width, width));
+    tile = new TileIcon(piece, width, backgroundColor);
+    setIcon(tile);
+    setEnabled(false);
   }
   
   public void placePiece(Tile piece) {

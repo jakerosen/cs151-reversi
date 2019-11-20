@@ -27,8 +27,8 @@ public class FlipAnimTester {
     //TileIcon icon2 = new TileIcon(t2, 250);
     //final JLabel label1 = new JLabel(icon1);
     //final JLabel label2 = new JLabel(icon2);
-    TileLabel label1 = new TileLabel(t1, 250);
-    TileLabel label2 = new TileLabel(t2, 250);
+    TileShell label1 = new TileShell(t1, 250);
+    TileShell label2 = new TileShell(t2, 250);
     frame.setLayout(new FlowLayout());
     frame.add(label1);
     frame.add(label2);

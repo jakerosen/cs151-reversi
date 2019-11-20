@@ -4,7 +4,7 @@ import model.Color;
 import java.awt.*;
 import java.awt.geom.*;
 
-import javax.swing.JLabel;
+import javax.swing.JButton;
 
 public class ReversiPiece extends AbstractPiece {
   private int x;
@@ -50,13 +50,13 @@ public class ReversiPiece extends AbstractPiece {
     g2.fill(outer);
   }
   
-  public void flip(JLabel label) {
+  public void flip(JButton button) {
     if (state == Color.BLACK) state = Color.WHITE;
     else state = Color.BLACK;
 
     for (int theta = 3; theta <= 180; theta += 3) {
       setTheta(theta);
-      label.repaint();
+      button.repaint();
       try {
         Thread.sleep(16);
       } catch (InterruptedException e) {
