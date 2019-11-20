@@ -24,9 +24,16 @@ public class ViewTester {
     gui.displayBoard(board);
     
     while (true) {
+      System.out.println("hey");
       game.getLegalMoves();
       gui.displayLegalMoves(game);
-      while (!gui.isTimeToWakeUp());
+      while (!gui.isTimeToWakeUp()) {
+        try {
+          Thread.sleep(100);
+        } catch (InterruptedException e) {
+          System.err.println("error: thread interrupted");
+        }
+      }
       gui.setWakeUp(false);
     }
   }
@@ -49,8 +56,8 @@ public class ViewTester {
     frame.setVisible(true);
     while (true) {
       ExecutorService es = Executors.newCachedThreadPool();
-      es.execute(() -> label1.flip(label1));
-      es.execute(() -> label2.flip(label2));
+      es.execute(() -> label1.flip());
+      es.execute(() -> label2.flip());
       es.shutdown();
       try {
         es.awaitTermination(1, TimeUnit.SECONDS);

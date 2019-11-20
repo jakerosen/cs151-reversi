@@ -58,11 +58,13 @@ public class ReversiPiece extends AbstractPiece {
     for (int theta = 3; theta <= 180; theta += 3) {
       setTheta(theta);
       comp.repaint();
+      /*
       try {
         Thread.sleep(16);
       } catch (InterruptedException e) {
         System.err.println("error: thread interrupted");
       }
+      */
     }
   }
   

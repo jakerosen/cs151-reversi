@@ -32,8 +32,8 @@ public class TileShell extends JButton {
     repaint();
   }
   
-  public void flip(JComponent comp) {
-    tile.flip(comp);
+  public void flip() {
+    tile.flip(this);
   }
   
   public void enableTile() {
@@ -42,10 +42,10 @@ public class TileShell extends JButton {
     repaint();
   }
 
-  public void disableTile(JComponent comp) {
+  public void disableTile() {
     setEnabled(false);
     tile.setBackgroundColor(new Color(34, 139, 34));
-    comp.repaint();
+    repaint();
   }
 
   /**

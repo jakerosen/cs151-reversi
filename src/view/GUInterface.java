@@ -134,11 +134,8 @@ public class GUInterface {//implements InputStrategy, OutputStrategy {
     int y = selectedPosition.getY();
     tiles[x][y].placePiece(board.getTile(selectedPosition));
     ExecutorService es = Executors.newCachedThreadPool();
-
-               System.out.println(flippedPieces);
-
     for (Tile tile : flippedPieces) {
-      es.execute(() -> tiles[tile.getX()][tile.getY()].flip(this.board));
+      es.execute(() -> tiles[tile.getX()][tile.getY()].flip());
     }
     es.shutdown();
     try {
@@ -153,22 +150,37 @@ public class GUInterface {//implements InputStrategy, OutputStrategy {
     ArrayList<Position> legalPositions = new ArrayList<Position>(moves.keySet());
     //LinkedList<Tile> flippedPieces = game.getFlippedPieces();
     Board board = game.getBoard();
+    
+    if (legalPositions.size() < 0) {
+      game.switchPlayers();
+      switchPlayers();
+      wakeUp = true;
+      return;
+    }
 
     for (Position pos : legalPositions) {
       int x = pos.getX();
       int y = pos.getY();
       tiles[x][y].addActionListener(e -> {
         for (Position p : legalPositions) {
-          tiles[p.getX()][p.getY()].disableTile(this.board);
+          tiles[p.getX()][p.getY()].disableTile();
         }
         game.playPiece(pos);
-        // change turn player for UI, todo
+        game.switchPlayers();
+        switchPlayers();
         updateBoard(board, pos, moves.get(pos));
         wakeUp = true;
+        System.out.println(wakeUp);
       });
         
       tiles[x][y].enableTile();
     }
+  }
+  
+  public void switchPlayers() {
+    turnPiece.flip();
+    turnPlayer = model.Color.flipColor(turnPlayer);
+    turnPlayerLabel.setText(turnPlayer + "'s turn");
   }
   
   public boolean isTimeToWakeUp() {
