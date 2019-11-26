@@ -16,7 +16,7 @@ import view.OutputStrategy;
  * Keeps track of turns and turn order,
  * Reports final score
  */
-public class Game {
+public class Model {
   private Board board;
   private Color turnPlayer;
   private HashMap<Position, LinkedList<Tile>> currentMoves;
@@ -34,8 +34,8 @@ public class Game {
   /**
    * Initializes the game model.
    */
-  public Game() {
-    board = Board.getBoard();
+  public Model() {
+    board = Board.makeBoard();
     turnPlayer = Color.BLACK;
     currentMoves = null;
     lastPlayerPassed = false;
@@ -61,7 +61,7 @@ public class Game {
    * @param output The strategy of displaying output
    */
   public static void playGame(InputStrategy input, OutputStrategy output) {
-    Game game = new Game();
+    Model game = new Model();
     PrintStream outStream = output.getStream();
 
     //turnPlayer = Color.BLACK;

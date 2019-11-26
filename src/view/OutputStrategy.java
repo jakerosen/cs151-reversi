@@ -4,7 +4,7 @@ import java.io.PrintStream;
 import java.util.LinkedList;
 
 import model.Board;
-import model.Game;
+import model.Model;
 import model.Position;
 import model.Tile;
 
@@ -30,7 +30,7 @@ public interface OutputStrategy {
    */
   public abstract void updateBoard(Board board, Position placedPiece, LinkedList<Tile> flippedPieces);
   
-  public abstract void displayLegalMoves(Game game);
+  public abstract void displayLegalMoves(Model game);
 
   /**
    * @return The PrintStream used to send messages to.

@@ -10,13 +10,12 @@ import java.util.LinkedList;
  * Tallies score
  */
 public class Board {
-  private static Board board = new Board();
   private Tile[][] tiles;
   private LinkedList<Tile> blacks;
   private LinkedList<Tile> whites;
 
   /**
-   * Initializes the singleton Board.
+   * Initializes the Board.
    */
   private Board() {
     int n = 8; // 8 by 8 board, 64 tiles total.
@@ -31,13 +30,11 @@ public class Board {
   }
 
   /**
-   * Returns the singleton Board with 64 Tiles
+   * Returns the Board with 64 Tiles
    * @return the Board
    */
-  public static Board getBoard() {
-    if (board == null)
-      board = new Board();
-    return board;
+  public static Board makeBoard() {
+    return new Board();
   }
 
   /**

@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 import model.Color;
-import model.Game;
+import model.Model;
 import model.Position;
 import model.Tile;
 
@@ -21,5 +21,5 @@ public interface InputStrategy {
    * @param game The game model.
    * @return The chosen position to place a piece.
    */
-  Position selectPosition(Game game);
+  Position selectPosition(Model game);
 }

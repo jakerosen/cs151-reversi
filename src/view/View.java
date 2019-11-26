@@ -8,6 +8,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -21,11 +22,12 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import model.Board;
-import model.Game;
+import model.Model;
 import model.Position;
 import model.Tile;
 
-public class GUInterface {//implements InputStrategy, OutputStrategy {
+public class View {//implements InputStrategy, OutputStrategy {
+  private BlockingQueue<Message> messageQueue;
   private JFrame frame;
   private JPanel board;
   private TileShell[][] tiles;
@@ -35,7 +37,8 @@ public class GUInterface {//implements InputStrategy, OutputStrategy {
   private JLabel turnPlayerLabel;
   private boolean wakeUp; // This is to wait for the button to be pressed... it's the best I've got right now.
   
-  public GUInterface() {
+  public View(BlockingQueue<Message> messageQueue) {
+    this.messageQueue = messageQueue;
     wakeUp = false;
     tiles = new TileShell[8][8];
     for (int i = 0; i < 8; i++) {
@@ -60,6 +63,13 @@ public class GUInterface {//implements InputStrategy, OutputStrategy {
     newGamePanel.setPreferredSize(new Dimension(300, 100));
     JButton newGame = new JButton("New Game"); 
     newGame.setBackground(Color.RED);
+    newGame.addActionListener(event -> {
+      try {
+        messageQueue.put(new NewGameMessage());
+      } catch (InterruptedException e) {
+        System.err.println("Thread interrupted when trying to add to message queue");
+      }
+    });
     newGamePanel.add(newGame);
     east.add(newGamePanel);
     
@@ -96,7 +106,7 @@ public class GUInterface {//implements InputStrategy, OutputStrategy {
     frame.pack();
     frame.setVisible(true);
   }
-
+  
   /**
    * Displays the board.
    *
@@ -114,13 +124,6 @@ public class GUInterface {//implements InputStrategy, OutputStrategy {
     frame.setVisible(true);
   }
 
-  /**
-   * This method is not implemented.
-   */
-  public Position selectPosition(Game game) {
-    return null;
-  }
-  
   /**
    * Updates the board according to the piece played. This method does not change the state of the board, it merely
    * displays changes that were made.
@@ -145,7 +148,7 @@ public class GUInterface {//implements InputStrategy, OutputStrategy {
     }
   }
   
-  public void displayLegalMoves(Game game) {
+  public void displayLegalMoves(Model game) {
     HashMap<Position, LinkedList<Tile>> moves = game.getCurrentMoves();
     ArrayList<Position> legalPositions = new ArrayList<Position>(moves.keySet());
     //LinkedList<Tile> flippedPieces = game.getFlippedPieces();

@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import model.Board;
 import model.Color;
-import model.Game;
+import model.Model;
 import model.Tile;
 
 import javax.swing.*;
@@ -18,9 +18,9 @@ public class ViewTester {
   }
   
   public static void testGUI() {
-    Game game = new Game();
+    Model game = new Model();
     Board board = game.getBoard();
-    GUInterface gui = new GUInterface();
+    View gui = new View(null);
     gui.displayBoard(board);
     
     while (true) {

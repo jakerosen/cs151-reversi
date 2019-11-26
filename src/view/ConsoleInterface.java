@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 import model.Board;
 import model.Color;
-import model.Game;
+import model.Model;
 import model.Position;
 import model.Tile;
 
@@ -42,7 +42,7 @@ public class ConsoleInterface implements InputStrategy, OutputStrategy {
    * @param game The game model.
    * @return The chosen position to place a piece.
    */
-  public Position selectPosition(Game game) {
+  public Position selectPosition(Model game) {
     ArrayList<Position> legalPositions = new ArrayList<Position>(game.getCurrentMoves().keySet());
     Color turnPlayer = game.getTurnPlayer();
 
@@ -93,7 +93,7 @@ public class ConsoleInterface implements InputStrategy, OutputStrategy {
     return; // No op for console interface; the whole board is displayed each turn.
   }
   
-  public void displayLegalMoves(Game game) {
+  public void displayLegalMoves(Model game) {
     ArrayList<Position> legalPositions = new ArrayList<Position>(game.getCurrentMoves().keySet());
     Color turnPlayer = game.getTurnPlayer();
 
