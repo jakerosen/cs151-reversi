@@ -52,8 +52,27 @@ public class ReversiPiece extends AbstractPiece {
   }
   
   public void flip(JComponent comp) {
-    if (state == Color.BLACK) state = Color.WHITE;
-    else state = Color.BLACK;
+    state = (state == Color.BLACK) ? Color.WHITE : Color.BLACK;
+    //if (state == Color.BLACK) state = Color.WHITE;
+    //else state = Color.BLACK;
+
+    for (int theta = 3; theta <= 180; theta += 3) {
+      setTheta(theta);
+      comp.repaint();
+      try {
+        Thread.sleep(8);
+      } catch (InterruptedException e) {
+        System.err.println("error: thread interrupted");
+      }
+      /*
+      */
+    }
+  }
+
+  public void fastFlip(JComponent comp) {
+    state = (state == Color.BLACK) ? Color.WHITE : Color.BLACK;
+    //if (state == Color.BLACK) state = Color.WHITE;
+    //else state = Color.BLACK;
 
     for (int theta = 3; theta <= 180; theta += 3) {
       setTheta(theta);

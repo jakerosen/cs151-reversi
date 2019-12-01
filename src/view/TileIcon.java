@@ -59,6 +59,10 @@ public class TileIcon implements Icon {
   public void flip(JComponent comp) {
     piece.flip(comp);
   }
+
+  public void fastFlip(JComponent comp) {
+    piece.fastFlip(comp);
+  }
   
   public void setBackgroundColor(Color backgroundColor) {
     this.backgroundColor = backgroundColor;

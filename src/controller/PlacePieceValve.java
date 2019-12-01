@@ -3,6 +3,9 @@ package controller;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import model.Color;
 import model.Model;
@@ -38,14 +41,21 @@ public class PlacePieceValve implements Valve {
     // call appropriate Model functions to place this piece on the board and flip pieces accordingly
     model.playPiece(pos);
     model.switchPlayers();
-    view.switchPlayers();
+    ExecutorService es = Executors.newCachedThreadPool();
+    es.execute(() -> view.switchPlayers());
 
     // get the list of flipped pieces from Model
     LinkedList<Tile> piecesToFlip = model.getFlippedPieces();//model.getCurrentMoves().get(pos);
 
     // give View the list of flipped pieces and placed piece so that View can appropriately use the flip animation
-    view.updateBoard(model.getBoard(), pos, piecesToFlip);
     // to update the graphics and place the new piece.
+    es.execute(() -> view.updateBoard(model.getBoard(), pos, piecesToFlip));
+    es.shutdown();
+    try {
+      es.awaitTermination(1, TimeUnit.SECONDS);
+    } catch (InterruptedException e) {
+      System.err.println("error: thread interrupted");
+    }
     
     // AND
     // Model needs to calculate available move locations for next turn

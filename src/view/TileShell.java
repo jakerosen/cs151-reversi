@@ -53,6 +53,10 @@ public class TileShell extends JButton {
   public void flip() {
     tile.flip(this);
   }
+
+  public void fastFlip() {
+    tile.fastFlip(this);
+  }
   
   public void enableTile() {
     setEnabled(true);

@@ -11,4 +11,7 @@ public class EmptyPiece extends AbstractPiece {
 
   public void flip(JComponent comp) {
   }
+
+  public void fastFlip(JComponent comp) {
+  }
 }

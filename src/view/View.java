@@ -124,6 +124,7 @@ public class View {//implements InputStrategy, OutputStrategy {
   }
   
   public void newGame(Board board) {
+    turnPiece.fastFlip();
     for (int i = 0; i < 8; i++) {
       for (int j = 0; j < 8; j++) {
         tiles[i][j].placePiece(board.getTile(i, j));
