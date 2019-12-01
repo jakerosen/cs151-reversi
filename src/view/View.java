@@ -165,6 +165,12 @@ public class View {//implements InputStrategy, OutputStrategy {
       int x = pos.getX();
       int y = pos.getY();
       tiles[x][y].addActionListener(e -> {
+        try {
+          messageQueue.put(new PlacePieceMessage(pos));
+        } catch (InterruptedException ex) {
+          System.err.println("error: thread interrupted");
+        }
+        /*
         for (Position p : legalPositions) {
           tiles[p.getX()][p.getY()].disableTile();
         }
@@ -174,6 +180,7 @@ public class View {//implements InputStrategy, OutputStrategy {
         updateBoard(board, pos, moves.get(pos));
         wakeUp = true;
         System.out.println(wakeUp);
+        */
       });
         
       tiles[x][y].enableTile();
@@ -196,5 +203,9 @@ public class View {//implements InputStrategy, OutputStrategy {
 
   public PrintStream getStream() {
     return out;
+  }
+  
+  public void disableTile(Position pos) {
+    tiles[pos.getX()][pos.getY()].disableTile();
   }
 }

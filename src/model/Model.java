@@ -43,6 +43,7 @@ public class Model {
   
   public void getLegalMoves() {
     currentMoves = board.getLegalMoves(turnPlayer);
+    lastPlayerPassed = currentMoves.isEmpty();
   }
   
   public void playPiece(Position selectedPosition) {

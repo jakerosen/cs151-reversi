@@ -11,9 +11,12 @@ import view.View;
 public class Reversi {
 
   public static void main(String[] args) {
-    BlockingQueue<Message> messageQueue = new LinkedBlockingQueue();
+    BlockingQueue<Message> messageQueue = new LinkedBlockingQueue<Message>();
     Model model = new Model();
     View view = new View(messageQueue);
     Controller controller = new Controller(model, view, messageQueue);
+    controller.playGame();
+    
+    // game is over
   }
 }
