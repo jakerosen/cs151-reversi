@@ -18,6 +18,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
@@ -35,11 +36,9 @@ public class View {//implements InputStrategy, OutputStrategy {
   private TileShell turnPiece;
   private model.Color turnPlayer;
   private JLabel turnPlayerLabel;
-  private boolean wakeUp; // This is to wait for the button to be pressed... it's the best I've got right now.
   
   public View(BlockingQueue<Message> messageQueue) {
     this.messageQueue = messageQueue;
-    wakeUp = false;
     tiles = new TileShell[8][8];
     for (int i = 0; i < 8; i++) {
       tiles[i] = new TileShell[8];
@@ -78,7 +77,7 @@ public class View {//implements InputStrategy, OutputStrategy {
     JPanel turnPiecePanel = new JPanel(new GridLayout(1, 1));
     Tile tile = new Tile(0,0);
     tile.setState(turnPlayer);
-    turnPiece = new TileShell(tile, 300, Color.WHITE);
+    turnPiece = new TileShell(tile, 300, Color.WHITE, messageQueue);
     turnPiecePanel.add(turnPiece);
     east.add(turnPiecePanel);
     
@@ -112,13 +111,23 @@ public class View {//implements InputStrategy, OutputStrategy {
    *
    * @param board The board.
    */
-  public void displayBoard(Board board) {
+  public void initBoard(Board board) {
     for (int i = 0; i < 8; i++) {
       for (int j = 0; j < 8; j++) {
-        TileShell tile = new TileShell(board.getTile(i, j), 100);
+        TileShell tile = new TileShell(board.getTile(i, j), 100, messageQueue);
         tile.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         this.board.add(tile);
         tiles[i][j] = tile;
+      }
+    }
+    frame.setVisible(true);
+  }
+  
+  public void newGame(Board board) {
+    for (int i = 0; i < 8; i++) {
+      for (int j = 0; j < 8; j++) {
+        tiles[i][j].placePiece(board.getTile(i, j));
+        tiles[i][j].disableTile();
       }
     }
     frame.setVisible(true);
@@ -151,40 +160,16 @@ public class View {//implements InputStrategy, OutputStrategy {
   public void displayLegalMoves(Model game) {
     HashMap<Position, LinkedList<Tile>> moves = game.getCurrentMoves();
     ArrayList<Position> legalPositions = new ArrayList<Position>(moves.keySet());
-    //LinkedList<Tile> flippedPieces = game.getFlippedPieces();
-    Board board = game.getBoard();
-    
-    if (legalPositions.size() < 0) {
-      game.switchPlayers();
-      switchPlayers();
-      wakeUp = true;
-      return;
-    }
-
     for (Position pos : legalPositions) {
       int x = pos.getX();
       int y = pos.getY();
-      tiles[x][y].addActionListener(e -> {
-        try {
-          messageQueue.put(new PlacePieceMessage(pos));
-        } catch (InterruptedException ex) {
-          System.err.println("error: thread interrupted");
-        }
-        /*
-        for (Position p : legalPositions) {
-          tiles[p.getX()][p.getY()].disableTile();
-        }
-        game.playPiece(pos);
-        game.switchPlayers();
-        switchPlayers();
-        updateBoard(board, pos, moves.get(pos));
-        wakeUp = true;
-        System.out.println(wakeUp);
-        */
-      });
-        
       tiles[x][y].enableTile();
     }
+  }
+  
+  public void showFinalScore(String winner, int blackScore, int whiteScore) {
+    String winnerMessage = String.format("Black score: %d\nWhite score: %d\n%s", blackScore, whiteScore, winner);
+    JOptionPane.showMessageDialog(frame, winnerMessage);
   }
   
   public void switchPlayers() {
@@ -193,19 +178,13 @@ public class View {//implements InputStrategy, OutputStrategy {
     turnPlayerLabel.setText(turnPlayer + "'s turn");
   }
   
-  public boolean isTimeToWakeUp() {
-    return wakeUp;
-  }
-  
-  public void setWakeUp(boolean w) {
-    wakeUp = w;
-  }
-
   public PrintStream getStream() {
     return out;
   }
   
   public void disableTile(Position pos) {
-    tiles[pos.getX()][pos.getY()].disableTile();
+    int x = pos.getX();
+    int y = pos.getY();
+    tiles[x][y].disableTile();
   }
 }

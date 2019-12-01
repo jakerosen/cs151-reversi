@@ -13,6 +13,7 @@ import model.Tile;
 import javax.swing.*;
 
 public class ViewTester {
+  /*
   public static void main(String[] args) {
     testGUI();
   }
@@ -66,4 +67,5 @@ public class ViewTester {
       }
     }
   }
+  */
 }

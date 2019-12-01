@@ -50,7 +50,10 @@ public class TileIcon implements Icon {
   }
   
   public void placePiece(Tile piece) {
-    this.piece = new ReversiPiece(width/20, width/20, width - width/10, piece.getState());
+    model.Color color = piece.getState();
+    this.piece = (color == model.Color.EMPTY) 
+      ? new EmptyPiece() 
+      : new ReversiPiece(width/20, width/20, width - width/10, piece.getState());
   }
   
   public void flip(JComponent comp) {

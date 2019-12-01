@@ -133,8 +133,29 @@ public class Model {
     return flippedPieces;
   }
 
-  public boolean isLastPlayerPassed() {
+  public boolean didLastPlayerPass() {
     return lastPlayerPassed;
   }
-
+  
+  public void newGame() {
+    board.reset();
+    turnPlayer = Color.BLACK;
+    currentMoves = null;
+    lastPlayerPassed = false;
+  }
+  
+  public int getScoreOf(Color player) {
+    return board.getScoreOf(player);
+  }
+  
+  public String determineWinner() {
+    int blackScore = getScoreOf(Color.BLACK);
+    int whiteScore = getScoreOf(Color.WHITE);
+    if (blackScore == whiteScore) {
+      // tied score
+      return "Tie game!";
+    } else {
+      return (blackScore > whiteScore) ? "Black wins!" : "White wins!";
+    }
+  }
 }

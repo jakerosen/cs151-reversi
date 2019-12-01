@@ -20,11 +20,16 @@ public class NewGameValve implements Valve {
       return ValveResponse.MISS;
     }
 
-    // TODO
     // reset game board in Model
-    // update View to reflect reset board
+    model.newGame();
 
-    System.out.println("New game!");
+    // update View to reflect reset board
+    view.newGame(model.getBoard());
+
+    // start first turn
+    model.getLegalMoves();
+    view.displayLegalMoves(model);
+
     return ValveResponse.EXECUTED;
   }
 }

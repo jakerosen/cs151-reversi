@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import model.Color;
 import model.Model;
 import model.Position;
 import model.Tile;
@@ -31,16 +32,17 @@ public class PlacePieceValve implements Valve {
       view.disableTile(p);
     }
     
-    // TODO 
     // get position from message (requires casting to PlacePieceMessage, which should be safe)
     Position pos = ((PlacePieceMessage) message).getPos();
+
     // call appropriate Model functions to place this piece on the board and flip pieces accordingly
     model.playPiece(pos);
     model.switchPlayers();
     view.switchPlayers();
+
     // get the list of flipped pieces from Model
     LinkedList<Tile> piecesToFlip = model.getFlippedPieces();//model.getCurrentMoves().get(pos);
-    //System.out.println(piecesToFlip);
+
     // give View the list of flipped pieces and placed piece so that View can appropriately use the flip animation
     view.updateBoard(model.getBoard(), pos, piecesToFlip);
     // to update the graphics and place the new piece.
@@ -58,16 +60,16 @@ public class PlacePieceValve implements Valve {
       nextTurnMoves = model.getCurrentMoves();
       if (nextTurnMoves.isEmpty()) {
         // neither player can move, the game is over;
-        // TODO calculate score here
+        int blackScore = model.getScoreOf(Color.BLACK);
+        int whiteScore = model.getScoreOf(Color.WHITE);
+        String winner = model.determineWinner();
+        view.showFinalScore(winner, blackScore, whiteScore);
         return ValveResponse.ENDGAME;
       }
     }
 
     // View uses available move locations to activate new Buttons to be clickable
     view.displayLegalMoves(model);
-    
-    System.out.println("Playing piece! pos: " + pos);
-    System.out.println(model.getBoard());
     return ValveResponse.EXECUTED;
   }
 }

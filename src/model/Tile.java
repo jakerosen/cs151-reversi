@@ -37,6 +37,13 @@ public class Tile {
   }
 
   /**
+   * @return position of this tile
+   */
+  public Position getPosition() {
+    return pos;
+  }
+
+  /**
    * Sets the state of the Tile
    * @param color The color to set the Tile to
    */

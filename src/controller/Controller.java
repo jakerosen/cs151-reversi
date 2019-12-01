@@ -26,7 +26,7 @@ public class Controller {
   }
   
   public void playGame() {
-    view.displayBoard(model.getBoard());
+    view.initBoard(model.getBoard());
     
     // needed for first turn
     // find legal moves of turn player (game start -- Black)
@@ -38,6 +38,7 @@ public class Controller {
     // wait for input (i.e. wait for message to arrive in queue)
     ValveResponse response = ValveResponse.MISS;
     //while (response != ValveResponse.ENDGAME) {
+    //int turnNumber = 1;
     while (true) {
       try {
         Message msg = messageQueue.take();
