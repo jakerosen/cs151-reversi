@@ -137,8 +137,11 @@ public class View {//implements InputStrategy, OutputStrategy {
    * @param board The board.
    */
   public void newGame(Board board) {
-    turnPiece.fastFlip();
-    turnPlayerLabel.setText("Black's turn");
+    if (turnPlayer == model.Color.WHITE) {
+      turnPlayer = model.Color.BLACK;
+      turnPiece.fastFlip();
+    }
+    turnPlayerLabel.setText(turnPlayer + "'s turn");
     for (int i = 0; i < 8; i++) {
       for (int j = 0; j < 8; j++) {
         tiles[i][j].placePiece(board.getTile(i, j));
