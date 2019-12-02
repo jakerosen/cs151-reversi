@@ -23,14 +23,14 @@ public class Tile {
   }
 
   /**
-   * @return x x coord of this Tile
+   * @return x coord of this Tile
    */
   public int getX() {
     return pos.getX();
   }
 
   /**
-   * @return y y coord of this Tile
+   * @return y coord of this Tile
    */
   public int getY() {
     return pos.getY();

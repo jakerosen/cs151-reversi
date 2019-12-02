@@ -59,7 +59,12 @@ public class Board {
       }
     }
   }
-  
+
+  /**
+   * @param x X coord
+   * @param y Y coord
+   * @return The tile on this position.
+   */
   public Tile getTile(int x, int y) {
     if (x < 0 || x > 7 || y < 0 || y > 7) {
       throw new IllegalArgumentException("x and y must be between [0,7]");
@@ -68,6 +73,10 @@ public class Board {
     return tiles[x][y];
   }
 
+  /**
+   * @param pos The position
+   * @return The tile on this position.
+   */
   public Tile getTile(Position pos) {
     return getTile(pos.getX(), pos.getY());
   }

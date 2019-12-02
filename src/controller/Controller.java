@@ -8,12 +8,22 @@ import model.Model;
 import view.Message;
 import view.View;
 
+/**
+ * Controller class for coordinating Model and View to play a game of Reversi.
+ */
 public class Controller {
   private Model model;
   private View view;
   private BlockingQueue<Message> messageQueue;
   private List<Valve> valves;
-  
+
+  /**
+   * Contructs a Controller for this Model and View, using this queue for messages
+   *
+   * @param model The model
+   * @param view The view
+   * @param messageQueue The queue to read messages from
+   */
   public Controller(Model model, View view, BlockingQueue<Message> messageQueue) {
     this.model = model;
     this.view = view;
@@ -24,10 +34,13 @@ public class Controller {
     valves.add(new NewGameValve(model, view));
     valves.add(new PlacePieceValve(model, view));
   }
-  
+
+  /**
+   * Plays Reversi
+   */
   public void playGame() {
     view.initBoard(model.getBoard());
-    
+
     // needed for first turn
     // find legal moves of turn player (game start -- Black)
     // tell View to display legal moves
@@ -55,5 +68,5 @@ public class Controller {
       }
     }
     //messageQueue.clear();
+    }
   }
-}

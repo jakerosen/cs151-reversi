@@ -15,15 +15,32 @@ import view.Message;
 import view.PlacePieceMessage;
 import view.View;
 
+/**
+ * Interprets a PlacePieceMessage to place a new piece on the board.
+ */
 public class PlacePieceValve implements Valve {
   private Model model;
   private View view;
 
+  /**
+   * Constructs the valve with the given model and view
+   *
+   * @param model The model
+   * @param view The view
+   */
   public PlacePieceValve(Model model, View view) {
     this.model = model;
     this.view = view;
   }
 
+  /**
+   * Interprets a PlacePieceMessage, placing the piece on the board.
+   *
+   * @param message The command to execute
+   *
+   * @return EXECUTED if the command is executed, or MISS if the command was
+   * not, or ENDGAME if the game is finished.
+   */
   @Override
   public ValveResponse execute(Message message) {
     if (message.getClass() != PlacePieceMessage.class) {
@@ -34,7 +51,7 @@ public class PlacePieceValve implements Valve {
     for (Position p : legalPositions) {
       view.disableTile(p);
     }
-    
+
     // get position from message (requires casting to PlacePieceMessage, which should be safe)
     Position pos = ((PlacePieceMessage) message).getPos();
 
@@ -56,7 +73,7 @@ public class PlacePieceValve implements Valve {
     } catch (InterruptedException e) {
       System.err.println("error: thread interrupted");
     }
-    
+
     // AND
     // Model needs to calculate available move locations for next turn
     model.getLegalMoves();

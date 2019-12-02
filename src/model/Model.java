@@ -11,10 +11,7 @@ import view.InputStrategy;
 import view.OutputStrategy;
 
 /**
- * Runs the logic for Reversi,
- * Takes input,
- * Keeps track of turns and turn order,
- * Reports final score
+ * The Model of a Reversi game.
  */
 public class Model {
   private Board board;
@@ -24,14 +21,6 @@ public class Model {
   private boolean lastPlayerPassed;
 
   /**
-   * Initializes the Game, runs the main loop
-   * @param args Unused
-   */
-  public static void main(String[] args) {
-    consoleInterface();
-  }
-  
-  /**
    * Initializes the game model.
    */
   public Model() {
@@ -40,17 +29,32 @@ public class Model {
     currentMoves = null;
     lastPlayerPassed = false;
   }
-  
-  public void getLegalMoves() {
+
+  /**
+   * Generates the legal moves that the current player can take.
+   *
+   * @return The moves.
+   */
+  public HashMap<Position, LinkedList<Tile>> getLegalMoves() {
     currentMoves = board.getLegalMoves(turnPlayer);
     lastPlayerPassed = currentMoves.isEmpty();
+    return currentMoves;
   }
-  
+
+  /**
+   * Plays a piece on the given position.
+   * Precondition: the position is a legal move.
+   *
+   * @param selectedPosition The position
+   */
   public void playPiece(Position selectedPosition) {
     flippedPieces = currentMoves.get(selectedPosition);
     board.playPiece(selectedPosition, turnPlayer, currentMoves);
   }
-  
+
+  /**
+   * Switch turn player
+   */
   public void switchPlayers() {
     turnPlayer = Color.flipColor(turnPlayer);
   }
@@ -117,37 +121,70 @@ public class Model {
     playGame(console, console);
   }
 
+  /**
+   * @return The board
+   */
   public Board getBoard() {
     return board;
   }
 
+  /**
+   * @return The turn player's color
+   */
   public Color getTurnPlayer() {
     return turnPlayer;
   }
 
+  /**
+   * Precondition: call getLegalMoves before this method
+   *
+   * @return The current legal moves
+   */
   public HashMap<Position, LinkedList<Tile>> getCurrentMoves() {
     return currentMoves;
   }
-  
+
+  /**
+   * Precondition: call playPiece before this method
+   *
+   * @return The pieces that were flipped after a piece was played
+   */
   public LinkedList<Tile> getFlippedPieces() {
     return flippedPieces;
   }
 
+  /**
+   * @return Whether or not the last played passed.
+   */
   public boolean didLastPlayerPass() {
     return lastPlayerPassed;
   }
-  
+
+  /**
+   * Restarts the game of Reversi.
+   */
   public void newGame() {
     board.reset();
     turnPlayer = Color.BLACK;
     currentMoves = null;
     lastPlayerPassed = false;
   }
-  
+
+  /**
+   * Gets the score of this player.
+   *
+   * @param player The player
+   * @return Their score.
+   */
   public int getScoreOf(Color player) {
     return board.getScoreOf(player);
   }
-  
+
+  /**
+   * Determines the winner of the game.
+   *
+   * @return The winner
+   */
   public String determineWinner() {
     int blackScore = getScoreOf(Color.BLACK);
     int whiteScore = getScoreOf(Color.WHITE);

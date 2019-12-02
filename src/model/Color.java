@@ -8,6 +8,10 @@ package model;
 public enum Color {
   EMPTY, BLACK, WHITE;
 
+  /**
+   * @param color The color
+   * @return The other color.
+   */
   public static Color flipColor(Color color) {
     if (color == BLACK) {
       return WHITE;
@@ -20,6 +24,10 @@ public enum Color {
     return EMPTY;
   }
 
+  /**
+   * @param color The color
+   * @return a String representation of the color
+   */
   public static String toString(Color color) {
     if (color == BLACK) {
       return "Black";

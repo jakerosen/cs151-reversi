@@ -27,6 +27,9 @@ import model.Model;
 import model.Position;
 import model.Tile;
 
+/**
+ * The View for a Reversi game.
+ */
 public class View {//implements InputStrategy, OutputStrategy {
   private BlockingQueue<Message> messageQueue;
   private JFrame frame;
@@ -36,7 +39,12 @@ public class View {//implements InputStrategy, OutputStrategy {
   private TileShell turnPiece;
   private model.Color turnPlayer;
   private JLabel turnPlayerLabel;
-  
+
+  /**
+   * Constructs the view with this given queue to put messages in.
+   *
+   * @param messageQueue The queue to place messages in.
+   */
   public View(BlockingQueue<Message> messageQueue) {
     this.messageQueue = messageQueue;
     tiles = new TileShell[8][8];
@@ -51,16 +59,16 @@ public class View {//implements InputStrategy, OutputStrategy {
     // init Board (Center)
     board = new JPanel(new GridLayout(8, 8));
     board.setPreferredSize(new Dimension(800, 800));
-    
-    // init East 
+
+    // init East
     JPanel east = new JPanel();
     east.setPreferredSize(new Dimension(300, 800));
     east.setLayout(new BoxLayout(east, BoxLayout.Y_AXIS));
-    
+
     // New Game Button
     JPanel newGamePanel = new JPanel(new GridLayout(1, 1));
     newGamePanel.setPreferredSize(new Dimension(300, 100));
-    JButton newGame = new JButton("New Game"); 
+    JButton newGame = new JButton("New Game");
     newGame.setBackground(Color.RED);
     newGame.addActionListener(event -> {
       try {
@@ -71,7 +79,7 @@ public class View {//implements InputStrategy, OutputStrategy {
     });
     newGamePanel.add(newGame);
     east.add(newGamePanel);
-    
+
     // Turn Player Piece
     turnPlayer = model.Color.BLACK;
     JPanel turnPiecePanel = new JPanel(new GridLayout(1, 1));
@@ -80,14 +88,14 @@ public class View {//implements InputStrategy, OutputStrategy {
     turnPiece = new TileShell(tile, 300, Color.WHITE, messageQueue);
     turnPiecePanel.add(turnPiece);
     east.add(turnPiecePanel);
-    
+
     // Turn Player Text
     JPanel turnPlayerPanel = new JPanel();
     turnPlayerLabel = new JLabel(turnPlayer + "'s turn");
     turnPlayerPanel.setBackground(Color.WHITE);
     turnPlayerPanel.add(turnPlayerLabel);
     east.add(turnPlayerPanel);
-    
+
     // Message box
     JTextArea text = new JTextArea(40, 30);
     text.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -105,9 +113,9 @@ public class View {//implements InputStrategy, OutputStrategy {
     frame.pack();
     frame.setVisible(true);
   }
-  
+
   /**
-   * Displays the board.
+   * Initializes the board display
    *
    * @param board The board.
    */
@@ -122,9 +130,15 @@ public class View {//implements InputStrategy, OutputStrategy {
     }
     frame.setVisible(true);
   }
-  
+
+  /**
+   * Resets the board display
+   *
+   * @param board The board.
+   */
   public void newGame(Board board) {
     turnPiece.fastFlip();
+    turnPlayerLabel.setText("Black's turn");
     for (int i = 0; i < 8; i++) {
       for (int j = 0; j < 8; j++) {
         tiles[i][j].placePiece(board.getTile(i, j));
@@ -137,7 +151,7 @@ public class View {//implements InputStrategy, OutputStrategy {
   /**
    * Updates the board according to the piece played. This method does not change the state of the board, it merely
    * displays changes that were made.
-   * 
+   *
    * @param board The board
    * @param placedPiece The position of the piece that was just played
    * @param flippedPieces The pieces that were flipped during this turn.
@@ -157,7 +171,12 @@ public class View {//implements InputStrategy, OutputStrategy {
       System.err.println("error: thread interrupted");
     }
   }
-  
+
+  /**
+   * Display the legal moves for the turn player.
+   *
+   * @param game The game state
+   */
   public void displayLegalMoves(Model game) {
     HashMap<Position, LinkedList<Tile>> moves = game.getCurrentMoves();
     ArrayList<Position> legalPositions = new ArrayList<Position>(moves.keySet());
@@ -167,22 +186,38 @@ public class View {//implements InputStrategy, OutputStrategy {
       tiles[x][y].enableTile();
     }
   }
-  
+
+  /**
+   * Displays the final score.
+   *
+   * @param winner The winner
+   * @param blackScore Black's score
+   * @param whiteScore White's score
+   */
   public void showFinalScore(String winner, int blackScore, int whiteScore) {
     String winnerMessage = String.format("Black score: %d\nWhite score: %d\n%s", blackScore, whiteScore, winner);
     JOptionPane.showMessageDialog(frame, winnerMessage);
   }
-  
+
+  /**
+   * Switch the turn player
+   */
   public void switchPlayers() {
     turnPiece.flip();
     turnPlayer = model.Color.flipColor(turnPlayer);
     turnPlayerLabel.setText(turnPlayer + "'s turn");
   }
-  
-  public PrintStream getStream() {
+
+  /**
+   * @return The stream to print messages to.
+   */
+  public PrintStream getPrintStream() {
     return out;
   }
-  
+
+  /**
+   * Disable the tile at this position.
+   */
   public void disableTile(Position pos) {
     int x = pos.getX();
     int y = pos.getY();
