@@ -81,6 +81,7 @@ public class PlacePieceValve implements Valve {
     // View updates whose turn it is, if needed
     // if no moves are available for next player, switch back turns
     if (nextTurnMoves.isEmpty()) {
+      view.getPrintStream().printf("There is no legal move for %s to make.\n", Color.toString(model.getTurnPlayer()));
       model.switchPlayers();
       view.switchPlayers();
       model.getLegalMoves();
