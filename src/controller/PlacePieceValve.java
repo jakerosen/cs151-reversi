@@ -91,6 +91,18 @@ public class PlacePieceValve implements Valve {
         int blackScore = model.getScoreOf(Color.BLACK);
         int whiteScore = model.getScoreOf(Color.WHITE);
         String winner = model.determineWinner();
+        
+        // score for non-full boards
+        if (blackScore + whiteScore < 64) {
+          if (winner.charAt(0) == 'T') {
+            blackScore = 32; whiteScore = 32;
+          } else  if (winner.charAt(0) == 'B') {
+             blackScore = 64 - whiteScore;
+          } else {
+            whiteScore = 64 - blackScore;
+          }
+        }
+        
         view.showFinalScore(winner, blackScore, whiteScore);
         return ValveResponse.ENDGAME;
       }

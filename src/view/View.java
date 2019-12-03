@@ -138,8 +138,8 @@ public class View {//implements InputStrategy, OutputStrategy {
    */
   public void newGame(Board board) {
     if (turnPlayer == model.Color.WHITE) {
-      turnPlayer = model.Color.BLACK;
       turnPiece.fastFlip();
+      turnPlayer = model.Color.flipColor(turnPlayer);
     }
     turnPlayerLabel.setText(turnPlayer + "'s turn");
     for (int i = 0; i < 8; i++) {

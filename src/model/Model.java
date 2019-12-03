@@ -100,6 +100,17 @@ public class Model {
           } else {
             winner = (blackScore > whiteScore) ? "Black" : "White";
           }
+          
+          // score for non-full boards
+          if (blackScore + whiteScore < 64) {
+            if (winner.charAt(0) == 'T') {
+              blackScore = 32; whiteScore = 32;
+            } else  if (winner.charAt(0) == 'B') {
+               blackScore = 64 - whiteScore;
+            } else {
+              whiteScore = 64 - blackScore;
+            }
+          }
 
           outStream.printf("Black score: %d\nWhite score: %d\nWinner: %s\n", blackScore, whiteScore, winner);
 
