@@ -11,6 +11,8 @@ import javax.swing.JComponent;
 public abstract class AbstractPiece {
   /**
    * Draws this piece.
+   * 
+   * @param g2 The graphics object
    */
   public abstract void draw(Graphics2D g2);
 

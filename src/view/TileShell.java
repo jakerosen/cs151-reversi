@@ -45,6 +45,7 @@ public class TileShell extends JButton {
    *
    * @param piece The piece occupying this tile (may be empty).
    * @param width The width of the tile shell.
+   * @param backgroundColor The background color of the tile.
    * @param messageQueue The queue to place the button clicked message in.
    */
   public TileShell(Tile piece, int width, Color backgroundColor, BlockingQueue<Message> messageQueue) {

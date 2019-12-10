@@ -30,7 +30,7 @@ import model.Tile;
 /**
  * The View for a Reversi game.
  */
-public class View {//implements InputStrategy, OutputStrategy {
+public class View implements UIStrategy {
   private BlockingQueue<Message> messageQueue;
   private JFrame frame;
   private JPanel board;
@@ -156,7 +156,7 @@ public class View {//implements InputStrategy, OutputStrategy {
    * displays changes that were made.
    *
    * @param board The board
-   * @param placedPiece The position of the piece that was just played
+   * @param selectedPosition The position of the piece that was just played
    * @param flippedPieces The pieces that were flipped during this turn.
    */
   public void updateBoard(Board board, Position selectedPosition, LinkedList<Tile> flippedPieces) {
@@ -220,6 +220,8 @@ public class View {//implements InputStrategy, OutputStrategy {
 
   /**
    * Disable the tile at this position.
+   * 
+   * @param pos The position of the tile to disable
    */
   public void disableTile(Position pos) {
     int x = pos.getX();

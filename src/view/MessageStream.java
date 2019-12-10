@@ -13,6 +13,8 @@ public class MessageStream extends OutputStream {
 
   /**
    * Constructs the message stream.
+   * 
+   * @param text The text field
    */
   public MessageStream(JTextArea text) {
     this.text = text;

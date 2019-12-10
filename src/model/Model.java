@@ -8,7 +8,7 @@ import java.util.LinkedList;
 
 import view.ConsoleInterface;
 import view.InputStrategy;
-import view.OutputStrategy;
+import view.UIStrategy;
 
 /**
  * The Model of a Reversi game.
@@ -29,7 +29,7 @@ public class Model {
     currentMoves = null;
     lastPlayerPassed = false;
   }
-
+  
   /**
    * Generates the legal moves that the current player can take.
    *
@@ -65,16 +65,16 @@ public class Model {
    * @param input The strategy to get user input for making a move
    * @param output The strategy of displaying output
    */
-  public static void playGame(InputStrategy input, OutputStrategy output) {
+  public static void playGame(InputStrategy input, UIStrategy output) {
     Model game = new Model();
-    PrintStream outStream = output.getStream();
+    PrintStream outStream = output.getPrintStream();
 
     //turnPlayer = Color.BLACK;
     //Board board = Board.getBoard();
     //boolean lastPlayerPassed = false;
 
     while (true) {
-      output.displayBoard(game.board);
+      output.initBoard(game.board);
       game.getLegalMoves();
 
       if (game.currentMoves.size() > 0) {

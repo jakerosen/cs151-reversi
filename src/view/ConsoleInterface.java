@@ -15,7 +15,7 @@ import model.Tile;
 /**
  * An input and output strategy using the console.
  */
-public class ConsoleInterface implements InputStrategy, OutputStrategy {
+public class ConsoleInterface implements InputStrategy, UIStrategy {
   private static Scanner input = new Scanner(System.in);
   private PrintStream out;
 
@@ -44,14 +44,12 @@ public class ConsoleInterface implements InputStrategy, OutputStrategy {
    */
   public Position selectPosition(Model game) {
     ArrayList<Position> legalPositions = new ArrayList<Position>(game.getCurrentMoves().keySet());
-    Color turnPlayer = game.getTurnPlayer();
+    //Color turnPlayer = game.getTurnPlayer();
 
     if (legalPositions.isEmpty()) {
       throw new IllegalArgumentException("There must be a legal move to make");
     }
     
-    PrintStream out = getStream();
-
     Position selectedPosition = null;
     while (selectedPosition == null) {
       out.print("Your Choice: ");
@@ -74,8 +72,8 @@ public class ConsoleInterface implements InputStrategy, OutputStrategy {
    *
    * @param board The board.
    */
-  public void displayBoard(Board board) {
-    getStream().println(board);
+  public void initBoard(Board board) {
+    getPrintStream().println(board);
   }
   
   /**
@@ -93,6 +91,11 @@ public class ConsoleInterface implements InputStrategy, OutputStrategy {
     return; // No op for console interface; the whole board is displayed each turn.
   }
   
+  /**
+   * Display the legal moves for the turn player.
+   *
+   * @param game The game state
+   */
   public void displayLegalMoves(Model game) {
     ArrayList<Position> legalPositions = new ArrayList<Position>(game.getCurrentMoves().keySet());
     Color turnPlayer = game.getTurnPlayer();
@@ -109,7 +112,7 @@ public class ConsoleInterface implements InputStrategy, OutputStrategy {
   /**
    * @return The PrintStream used to send messages to.
    */
-  public PrintStream getStream() {
+  public PrintStream getPrintStream() {
     return out;
   }
 }

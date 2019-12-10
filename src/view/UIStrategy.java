@@ -12,13 +12,13 @@ import model.Tile;
  * Defines a strategy for displaying output to the user.  An output strategy must be able to display the board and also
  * be able to display PrintStream messages to the user.
  */
-public interface OutputStrategy {
+public interface UIStrategy {
   /**
    * Displays the board.
    *
    * @param board The board.
    */
-  public abstract void displayBoard(Board board);
+  public abstract void initBoard(Board board);
   
   /**
    * Updates the board according to the piece played. This method does not change the state of the board, it merely
@@ -30,10 +30,15 @@ public interface OutputStrategy {
    */
   public abstract void updateBoard(Board board, Position placedPiece, LinkedList<Tile> flippedPieces);
   
+  /**
+   * Display the legal moves for the turn player.
+   *
+   * @param game The game state
+   */
   public abstract void displayLegalMoves(Model game);
 
   /**
    * @return The PrintStream used to send messages to.
    */
-  public abstract PrintStream getStream();
+  public abstract PrintStream getPrintStream();
 }
