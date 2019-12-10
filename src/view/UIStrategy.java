@@ -19,6 +19,13 @@ public interface UIStrategy {
    * @param board The board.
    */
   public abstract void initBoard(Board board);
+
+  /**
+   * Resets the board display
+   *
+   * @param board The board.
+   */
+  public void newGame(Board board);
   
   /**
    * Updates the board according to the piece played. This method does not change the state of the board, it merely

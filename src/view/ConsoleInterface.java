@@ -75,6 +75,15 @@ public class ConsoleInterface implements InputStrategy, UIStrategy {
   public void initBoard(Board board) {
     getPrintStream().println(board);
   }
+
+  /**
+   * Resets the board display
+   *
+   * @param board The board.
+   */
+  public void newGame(Board board) {
+    initBoard(board);
+  }
   
   /**
    * Updates the board according to the piece played. This method does not change the state of the board, it merely

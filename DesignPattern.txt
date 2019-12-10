@@ -1,0 +1,16 @@
+Pattern: Strategy
+
+Context: Define how to collect input from the turn player to make a move.
+
+Motvation: Regardless of how the UI looks, whether it's a GUI or console
+  interface, the decisions made in the game logic are the same. The strategy
+  design pattern allows us to use the same core game logic regardless of which
+  user interface we are using, and we pass in which strategy (UI) we would like
+  to use.
+
+Implementation: We implemented an interface, UIStrategy, which has a few methods
+  for controlling output to the screen, including ways to initialize the board,
+  start a new game, display the legal moves that a player can make, and
+  update the UI with the new board. A concrete class, ConsoleInterface,
+  implements UIStrategy for the console version of the game, and View implements
+  UIStrategy for the GUI version of the program.
